@@ -1,6 +1,6 @@
 import {IncreseItem,decreseItem,RemoveItem} from '../store/CartSlice' 
 import { useSelector } from 'react-redux';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { productApi } from '../backend/product.api';
 import { ClearCart } from '../store/CartSlice';
 import { useDispatch } from 'react-redux';
@@ -16,33 +16,17 @@ const [total,settotal] = useState(0)
 
 const cartDetails = useSelector((state)=>state.CartSlice.cart)
 
-console.log(cartDetails)
-useEffect(()=>{
 
-const productId=cartDetails.map((val)=>val.product)
-productApi.FetchProductById(productId).then((data)=>{
-    setcart(data.data.products)
+const increasecart = useCallback(async (data) => {
+    let obj = { product: data._id, quantity: 1 };
 
-})
-},[cartDetails])
+    dispatch(IncreseItem(obj));
+    await productApi.AddCart(token, obj);
+}, [dispatch]);
 
-const  EmptyCart = async()=>{
-dispatch(ClearCart())
-console.log(token)
-await  productApi.ClearCartFromBackend(token)
-}
 
-const  increasecart =async(data)=>{
-    let obj={
-        product:data._id,
-        quantity:1,
-    }
 
-    dispatch(IncreseItem(obj))
-    await productApi.AddCart(token,obj)
-}
-
-const Decrease = async(data)=>{
+const  Decrease = useCallback( async(data)=>{
     let obj={
         product:data._id,
         quantity:1,
@@ -51,9 +35,36 @@ const Decrease = async(data)=>{
 dispatch(decreseItem(obj))
 
 await  productApi.DecreaseItem(token,obj)
+},[dispatch])
+
+useEffect(() => {
+    const fetchData = async () => {
+        const productId = cartDetails.map((val) => val.product);
+        const data = await productApi.FetchProductById(productId);
+
+        for (let i = 0; i < cartDetails.length; i++) {
+            data.data.products[i].quantity = cartDetails[i].quantity;
+        }
+        setcart(data.data.products);
+
+        const totalamount = data.data.products.reduce(
+            (acc, curr) => acc + curr.quantity * curr.price, 0
+        );
+        settotal(totalamount);
+    };
+
+    fetchData();
+}, [cartDetails]);
+
+
+const  EmptyCart = async()=>{
+dispatch(ClearCart())
+console.log(token)
+await  productApi.ClearCartFromBackend(token)
 }
 
-const remove =async(data)=>{
+
+ async function remove(data){
     let obj={
         product:data._id,
         quantity:1,
@@ -87,7 +98,6 @@ return (
                 <span className="mx-2 text-gray-900">{
                             cartDetails.map((data)=>{
                                 if(data.product==val._id){
-                                    console.log(data.product==val._id)
                                     return data.quantity
                                 }
                             })

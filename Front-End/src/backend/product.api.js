@@ -31,7 +31,6 @@ class productsApi {
         return  response 
     }
 
-
     async FetchProductById(ids){
         const response  = await api.post('/products/cart/products',
             ids
@@ -67,6 +66,15 @@ class productsApi {
   
                   return response 
           }
+
+        async handlepayment(data,token){
+            const response = await api.post('/payment/stripeSession',data,{
+                headers:{
+                    Authorization:`Bearer ${token}`
+                }
+            })
+            return response 
+        }
 
 }
 

@@ -5,7 +5,7 @@ import App from './App.jsx'
 import { store ,persistor} from './store/store.js'
 import { PersistGate } from 'redux-persist/integration/react' //PersistGate delays rendering the app until the persisted Redux state is rehydrated (loaded from storage). 🚀
 import { Provider } from 'react-redux'
-import { Home ,RegisterUser,NotFound,Login,Product,SellerDashborad,CartPage} from './components/export'
+import { Home ,RegisterUser,PaymentFailed,NotFound,Login,Product,SellerDashborad,CartPage,Checkout} from './components/export'
 import { createBrowserRouter ,RouterProvider } from 'react-router-dom'
 
 const route = createBrowserRouter([
@@ -40,6 +40,14 @@ const route = createBrowserRouter([
     {
       path:'/cart',
       element:<CartPage/>
+    },
+    {
+      path:'/checkout',
+      element:<Checkout/>
+    },
+    {
+      path:'/cancel',
+      element:<PaymentFailed/>
     },
     {
       path:'*',

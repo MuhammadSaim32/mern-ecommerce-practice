@@ -8,6 +8,10 @@ import Product from './Product'
 import SellerDashborad from './SellerDashborad'
 import Loader from './Loader'
 import CartPage from './Cart'
+import Checkout from './Checkout'
+import PaymentFailed from './Cancel'
+
+
 export{
     Home,
     RegisterUser,
@@ -18,5 +22,7 @@ export{
     Product,
     SellerDashborad,
     Loader,
-    CartPage
+    CartPage,
+    Checkout,
+    PaymentFailed
 }

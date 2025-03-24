@@ -4,13 +4,14 @@ import { useCallback, useEffect, useState } from 'react';
 import { productApi } from '../backend/product.api';
 import { ClearCart } from '../store/CartSlice';
 import { useDispatch } from 'react-redux';
-
+import {loadStripe} from '@stripe/stripe-js';
+import  {useNavigate} from "react-router-dom"
 
 
 function CartPage() {
 const dispatch = useDispatch()
 const token=useSelector((state)=>state.AuthSlice.userDetails)
-
+const navigate = useNavigate()
 const [cart,setcart] = useState([])
 const [total,settotal] = useState(0)
 
@@ -23,7 +24,6 @@ const increasecart = useCallback(async (data) => {
     dispatch(IncreseItem(obj));
     await productApi.AddCart(token, obj);
 }, [dispatch]);
-
 
 
 const  Decrease = useCallback( async(data)=>{
@@ -59,7 +59,6 @@ useEffect(() => {
 
 const  EmptyCart = async()=>{
 dispatch(ClearCart())
-console.log(token)
 await  productApi.ClearCartFromBackend(token)
 }
 
@@ -74,6 +73,19 @@ await  productApi.ClearCartFromBackend(token)
     await  productApi.RemoveItem(token,obj)
 }
 
+
+const paymentProcess = async()=>{
+    const stripe = await loadStripe('pk_test_51R5XDCKzx3QNEI3wP6IVJJor4r2DiefxtAIZCWWBjGr0TAitLUa7de2UaqUnCfKLzHXbvrgj1UGuM7F9TGZi7fjH00A29Z1cph');
+const  body={
+    products:cartDetails
+}
+
+const response  = await productApi.handlepayment(body,token)
+  const stripeResponse = await  stripe.redirectToCheckout({
+    sessionId:response.data.session.id})     
+    
+    console.log(stripeResponse)
+}
 
 
 if(cart.length){
@@ -114,7 +126,9 @@ return (
         </div>
         <div className="mt-6 text-xl font-bold text-gray-800">Total:₨.{total}</div>
         <div className="flex gap-4 mt-4">
-        <button className="w-full bg-blue-600 text-white py-2 rounded-lg shadow hover:bg-black transition duration-300">
+        <button 
+        onClick={paymentProcess}
+        className="w-full bg-blue-600 text-white py-2 rounded-lg shadow hover:bg-black transition duration-300">
             Checkout
         </button>
         <button

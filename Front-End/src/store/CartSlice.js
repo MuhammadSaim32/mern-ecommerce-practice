@@ -2,10 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
     cart:[
-        {
-        product:null,
-        quantity:0
-        },
+   
     ],
     count:0
 }
@@ -27,11 +24,8 @@ const initialState = {
       },
     
       ClearCart:(state)=>{
-      let obj={
-        product:null,
-        quantity:0
-      }
-      state.cart=[obj]
+    
+      state.cart=[]
       state.count=0
     },
     

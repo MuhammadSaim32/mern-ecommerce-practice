@@ -90,11 +90,20 @@ const deleteUser=async(req,res)=>{
     const DeletedCount = await userModel.deleteOne({email})  // returns how many  Number of  documents is deleted 
 }
 
+
+const UserDetailsById=async(req,res)=>{
+    console.log(req.user)
+    const user = await userModel.findById(req.user.id) 
+    res.json({
+        cart:user.cart
+    })   
+}
+
 export {
     registerUser,
     loginUser,
-    deleteUser
-    
+    deleteUser,
+    UserDetailsById    
 }
 
 

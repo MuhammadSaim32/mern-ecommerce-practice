@@ -6,7 +6,8 @@ const paymentRouter= express.Router()
 
 
 paymentRouter.post('/stripeSession',auth,checkoutSession)
-paymentRouter.post('/stripewebhook',StripeWebhook)
+paymentRouter.use(express.raw({ type: "application/json" }))
+paymentRouter.post('/stripewebhook', StripeWebhook)
 
 
 export default paymentRouter

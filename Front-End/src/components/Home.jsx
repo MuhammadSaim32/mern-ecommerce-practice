@@ -117,19 +117,17 @@ const response = await productApi.AddCart(token,obj)
                 ) : (
                   <button
                     onClick={() => addCart(product)}
-                    disabled={!userStatus}
-                    className="w-1/2 bg-blue-600 text-white py-2 px-4 rounded-bl-lg hover:bg-black focus:outline-none focus:ring-2 focus:ring-black transition duration-300"
+                    disabled={!userStatus ||  product.stock<=0 ? true:false}
+                    className={`w-1/2 bg-blue-600 text-white py-2 px-4 rounded-bl-lg hover:bg-black focus:outline-none focus:ring-2 focus:ring-black transition duration-300
+                    ${product.stock<=0 ? "opacity-50 cursor-not-allowed":""}`}
                   >
                     Add to Cart
                   </button>
                 )}
-                <button
-                  onClick={() => console.log("Buy Now clicked for", product)}
-                  disabled={!userStatus}
-                  className="w-1/2 bg-green-600 text-white py-2 px-4 rounded-br-lg hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-400 transition duration-300"
-                >
-                  Buy Now
-                </button>
+         <div className="w-1/2 bg-gray-200 text-gray-800 py-2 px-4 rounded-br-lg flex justify-center items-center text-sm font-semibold">
+          {product.stock > 0 ? `Stock: ${product.stock}` : "Out of Stock"}
+</div>
+
               </div>
             </div>
           ))}

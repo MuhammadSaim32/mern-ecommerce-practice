@@ -17,6 +17,17 @@ class usersAuth{
         const response=  await api.post('/users/login',{email,password},{ withCredentials: true })
            return response
        }
+    
+    async GetUserById(token){
+        const response = await api.post('/users/User/id',{},{
+            headers:{
+                'Authorization' :`Bearer ${token}`
+
+            }
+        })
+        return response
+    }
+    
 }
 
 

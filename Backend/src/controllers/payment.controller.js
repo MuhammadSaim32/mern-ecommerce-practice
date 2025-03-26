@@ -19,6 +19,7 @@ const user= await userModel.findById(req.user.id)
     const session = await Stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       mode: "payment",
+      metadata: { userId: user._id.toString() }, // Attach your user ID here
       line_items: products.map(item => {
       
         return {
@@ -36,7 +37,6 @@ const user= await userModel.findById(req.user.id)
       success_url: 'http://localhost:5173/checkout',
       cancel_url:'http://localhost:5173/cancel'
     })
-    console.log(session)
     res.json({ session: session })
   } catch (e) {
     res.status(500).json({ error: e.message })

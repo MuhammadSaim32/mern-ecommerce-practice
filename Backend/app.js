@@ -12,13 +12,13 @@ app.use(cors({
 }))
 
 
+app.use('/api/v1/payment',paymentRouter)
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser())
 app.use('/api/v1/users',UserRouter)
 app.use('/api/v1/products',productRouter)
-app.use('/api/v1/payment',paymentRouter)
 
 
 export default app

@@ -5,7 +5,6 @@ export default function Product() {
     
     const {state} = useLocation()
     const {image,title,description,price} = state
-    console.log(image)  
 
     return (
         <div className="container mx-auto py-12 px-4">

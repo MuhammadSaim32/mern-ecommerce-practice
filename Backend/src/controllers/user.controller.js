@@ -1,6 +1,7 @@
 import userModel from '../models/user.model.js'
 import  jwt  from 'jsonwebtoken'
 import bcrypt from 'bcryptjs';
+import SendEmail from '../utils/nodemailer.js'
 
 const redirectUserBasedOnRole=(role)=>{
     if(role==='admin'){
@@ -99,11 +100,102 @@ const UserDetailsById=async(req,res)=>{
     })   
 }
 
+const ForgotPassword=async(req,res)=>{
+    const {email} = req.body
+  const exist  = await userModel.findOne({email})
+  if(!exist){
+   return  res.json({
+        message:'email not exist in our records'
+    })
+  }
+  let payload={
+ email:exist.email,
+  }
+
+ const resetToken= jwt.sign(payload,process.env.JWT_SECRET_KEY, { expiresIn: "10m" })
+
+
+ const mailOptions = {
+    from: process.env.EMAIL_USER,
+    to: email.toString(),
+    subject: 'Reset Your Password',
+    html: `<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        .container {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            color: white;
+            background-color: #007bff;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .footer {
+            font-size: 12px;
+            color: #555;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Password Reset Request</h2>
+        <p>Hello <b>${email.toString().slice(0,email.toString().indexOf('@'))}</b></p>
+        <p>We received a request to reset your password. Click the button below to proceed:</p>
+        <a href="${process.env.FRONTEND_URI}reset-password?resetToken=${resetToken}" class="button">Reset Password</a>
+        <p>If you did not request this, please ignore this email. This link will expire in <b>10 min</b>.</p>
+        <p class="footer">For security reasons, do not share this link with anyone.</p>
+        <p class="footer">Best Regards, <br>MyShop</p>
+    </div>
+</body>
+</html>
+`
+  };
+
+ const response =await  SendEmail(mailOptions)
+console.log(response)
+ return res.json({
+        message:'check your email for password reset link'
+    
+    })
+}
+
+const ResetPassword=async(req,res)=>{
+const {password,resetToken} = req.body
+console.log(req.body)
+try{
+const {email} =await jwt.verify(resetToken, process.env.JWT_SECRET_KEY)
+const user = await userModel.findOne({email})
+const hashedPassword = await bcrypt.hash(password, 2)
+user.password=hashedPassword
+await user.save();
+return  res.json({message: 'Password reset successfully.login using new password'})
+}catch(err){
+    return res.json({
+        message:'token is not valid.try again with new token '
+    })
+}
+}
+
+
 export {
     registerUser,
     loginUser,
     deleteUser,
-    UserDetailsById    
+    UserDetailsById,
+    ResetPassword,
+    ForgotPassword
 }
 
 

@@ -1,29 +1,26 @@
 import React from 'react';
 import { useForm } from "react-hook-form";
 import userAuth from '../backend/users.Api';
-import {useNavigate} from 'react-router-dom'
-import {  useDispatch } from 'react-redux'
+import { useNavigate, Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import { login } from '../store/AuthSlice'; 
-import  {CartFromBackend} from '../store/CartSlice'
+import { CartFromBackend } from '../store/CartSlice';
 
 function Login() {
-  const { register, handleSubmit, formState: { errors ,isSubmitting } } = useForm();
-const navigate = useNavigate();
-const dispatch = useDispatch()
+  const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-
-  const Login=async(data)=>{
-   const response =  await userAuth.loginUser(data).catch((err)=>{
-      console.log(err.message)
-    })
-    if(response?.data?.token){
-      dispatch(login(response?.data?.token))
-      dispatch(CartFromBackend(response?.data?.cart))
-      navigate(response?.data?.redirect)
+  const LoginUser = async (data) => {
+    const response = await userAuth.loginUser(data).catch((err) => {
+      console.log(err.message);
+    });
+    if (response?.data?.token) {
+      dispatch(login(response?.data?.token));
+      dispatch(CartFromBackend(response?.data?.cart));
+      navigate(response?.data?.redirect);
     }
-  }
-
-
+  };
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
@@ -32,7 +29,7 @@ const dispatch = useDispatch()
           Login
         </h2>
 
-        <form className="space-y-4" onSubmit={handleSubmit((data)=>Login(data))}  >
+        <form className="space-y-4" onSubmit={handleSubmit((data)=>LoginUser(data))} >
           {/* Email */}
           <div>
             <label className="block text-white font-medium">Email</label>
@@ -68,9 +65,15 @@ const dispatch = useDispatch()
             disabled={isSubmitting}
             className="w-full bg-yellow-500 text-white py-2 rounded-lg hover:bg-yellow-600 transition"
           >
-             {isSubmitting ? "Submitting...":"Login" }   
-
+            {isSubmitting ? "Submitting..." : "Login"}
           </button>
+
+          {/* Forgot Password Link */}
+          <div className="text-center">
+            <Link to="/forgot-password" className="text-sm text-white hover:underline">
+              Forgot Password?
+            </Link>
+          </div>
         </form>
       </div>
     </div>

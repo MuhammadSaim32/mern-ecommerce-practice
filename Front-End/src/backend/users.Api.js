@@ -27,6 +27,23 @@ class usersAuth{
         })
         return response
     }
+
+    async ForgotPassword(email){
+        const response = await api.post('/users/forgot-password',
+            email,
+        )
+        return response 
+    }
+
+    async ResetPassword({password},resetToken){
+        console.log(password)
+        const response = await api.post('/users/reset-password',
+            {password,
+             resetToken 
+            },
+        )
+        return response 
+    }
     
 }
 

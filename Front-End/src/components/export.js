@@ -10,8 +10,8 @@ import Loader from './Loader'
 import CartPage from './Cart'
 import Checkout from './Checkout'
 import PaymentFailed from './Cancel'
-
-
+import ForgetPassword from './ForgetPassword'
+import ResetPassword from './ResetPassword'
 export{
     Home,
     RegisterUser,
@@ -24,5 +24,7 @@ export{
     Loader,
     CartPage,
     Checkout,
-    PaymentFailed
+    PaymentFailed,
+    ForgetPassword,
+    ResetPassword
 }

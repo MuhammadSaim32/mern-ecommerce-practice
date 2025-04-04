@@ -1,8 +1,8 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { productApi } from '../backend/product.api';
+import { productApi } from '../../backend/product.api';
 import { useSelector } from 'react-redux';
-export default function SellerDashborad() {
+export default function AddProducts() {
   const {
     register,
     handleSubmit,

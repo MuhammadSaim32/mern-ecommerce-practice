@@ -3,7 +3,7 @@ import uploadImageOncloudinary from "../utils/cloudinary.js"
 import userModel from '../models/user.model.js'
 
 const uploadProduct=async(req, res) => {
-
+const {id}= req.user
     const {title,description,price,stock}=req.body
 
 if([title,description,price,stock].some((val)=>val=="")){
@@ -17,7 +17,7 @@ if([title,description,price,stock].some((val)=>val=="")){
 const productImagePath=req.file.path;
 const ImageUrl = await uploadImageOncloudinary(productImagePath)
 
-const uploadedProduct = await productModel.create({title,description,price,stock,image:ImageUrl})
+const uploadedProduct = await productModel.create({title,description,price,stock,image:ImageUrl,sellerId:id})
  
 
     res.status(200).json({
@@ -116,6 +116,30 @@ const removeItem=async(req,res)=>{
       return   res.status(200)
 }
 
+const SellerSpecficProducts=async(req,res)=>{
+    if (req.user.role !== 'seller') {
+        return res.status(403).json({
+          message: 'Access denied. Only sellers are allowed to access this resource.'
+        });
+      }
+      const sellerId = req.user.id; 
+    const SellerProducts = await productModel.find({sellerId})
+return res.json({
+    products:SellerProducts
+})
+      
+}
+
+
+const DeleteProduct=async(req,res)=>{
+console.log(req.query)
+    const {id} = req.query
+   await  productModel.findByIdAndDelete(id)
+return res.json({
+    message:"product Deleted Successfully"
+})
+}
+
 
 export {
     uploadProduct,
@@ -124,7 +148,9 @@ export {
     fetchCartProducts,
     ClearCart,
     decrease,
-    removeItem
+    removeItem,
+    SellerSpecficProducts,
+    DeleteProduct
 }
 
 

@@ -1,8 +1,10 @@
 import productModel from '../models/product.model.js'
 import uploadImageOncloudinary from "../utils/cloudinary.js"
 import userModel from '../models/user.model.js'
+import mongoose from "mongoose"
 
 const uploadProduct=async(req, res) => {
+    conole.log(req.body)
 const {id}= req.user
     const {title,description,price,stock}=req.body
 
@@ -140,6 +142,52 @@ return res.json({
 })
 }
 
+const OutOfStockProducts=async(req,res)=>{
+console.log(req.user.id)
+const {id}=req.user
+const products =  await productModel.find({
+ sellerId:id,
+ stock:0
+  });
+
+return res.json({
+    products:products
+})
+}
+
+
+const EditProduct=async(req, res) => {
+
+    const {id}= req.body
+
+        const {title,description,price,stock}=req.body
+    
+    if([title,description,price,stock].some((val)=>val=="")){
+    
+        return res.status(400).send('All Fields are required')
+    }  
+     if (!req.file) {
+            return res.status(400).json({ error: "No file uploaded!" });
+        }
+    
+    const productImagePath=req.file.path;
+    const ImageUrl = await uploadImageOncloudinary(productImagePath)
+    
+    const product =await productModel.findById({id})
+     product.title=title
+     product.description=description
+     product.price=price
+     product.stock=stock
+     product.image=ImageUrl
+   await   product.save()
+    
+        res.status(200).json({
+            message: "Product  details updated  successfully!",
+            uploadedProduct,
+        });
+    
+    }
+
 
 export {
     uploadProduct,
@@ -150,7 +198,10 @@ export {
     decrease,
     removeItem,
     SellerSpecficProducts,
-    DeleteProduct
+    DeleteProduct,
+    OutOfStockProducts,
+    EditProduct
+
 }
 
 

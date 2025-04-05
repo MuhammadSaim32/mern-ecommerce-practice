@@ -1,11 +1,12 @@
 import api from "./axios.api"
 
 class productsApi {
-    async uploadProduct( formData,token) {
+    async uploadProduct( formData,token,{id}) {
         console.log(token)
         const response = await api.post(
             '/products/upload',
-             formData,{ 
+             formData,
+             id,{ 
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -89,6 +90,17 @@ class productsApi {
     async DeleteProduct(_id){
      const res =  await  api.delete(`/products/seller/delete/product?id=${_id}`)
      return res
+        }
+
+        async GetOutOfStockProducts(token){
+          const res = await  api.post('/products/seller/outofstock',{},
+                {
+                    headers:{
+                        Authorization:`Bearer ${token}`
+                    }
+                }
+            )
+            return res
         }
 
 }

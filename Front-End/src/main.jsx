@@ -6,7 +6,7 @@ import { store ,persistor} from './store/store.js'
 import { PersistGate } from 'redux-persist/integration/react' //PersistGate delays rendering the app until the persisted Redux state is rehydrated (loaded from storage). 🚀
 import { Provider } from 'react-redux'
 import { Home ,ResetPassword,RegisterUser,PaymentFailed,NotFound,Login,Product,CartPage,ForgetPassword,Checkout} from './components/export'
-import {SellerBashborad,SellerApp,AddProducts,MyProducts} from "./components/SellerComponents/Seller.export.js"
+import {SellerBashborad,SellerApp,AddProducts,MyProducts,OutOfStockProducts} from "./components/SellerComponents/Seller.export.js"
 import { createBrowserRouter ,RouterProvider } from 'react-router-dom'
 
 const route = createBrowserRouter([
@@ -44,6 +44,9 @@ const route = createBrowserRouter([
           path:'/SellerDashborad/products',
           element:<MyProducts/>
 
+        },{
+          path:"/SellerDashborad/out-of-stock",
+          element:<OutOfStockProducts/>
         }
       ],
     },

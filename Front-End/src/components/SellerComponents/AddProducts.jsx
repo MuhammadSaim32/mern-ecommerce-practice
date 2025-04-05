@@ -1,13 +1,30 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { productApi } from '../../backend/product.api';
 import { useSelector } from 'react-redux';
+import { useLocation, useNavigate} from 'react-router-dom';
+
 export default function AddProducts() {
+  const {state}= useLocation()
+  const navigate=useNavigate()
+
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    defaultValues:{
+      title:state?.title || "",
+      description:state?.description|| "",
+      price:state?.price|| "",
+      stock:state?.stock|| ""
+
+    } 
+  });
+
+
+
 
     const token = useSelector((state)=>state.AuthSlice.userDetails)
   
@@ -21,7 +38,11 @@ formData.append('description',data.description)
 formData.append('price',data.price) 
 formData.append('stock',data.stock)
 
- const response = await productApi.uploadProduct(formData,token).catch((err)=>{
+ const response = await productApi.uploadProduct(formData,token,state?._id)
+ .then(()=>{
+  navigate('/')
+ })
+ .catch((err)=>{
     console.log(err)
    })
   
@@ -42,7 +63,7 @@ formData.append('stock',data.stock)
             </label>
             <input
               type="file"
-              id="image"
+              id="products"
               {...register('product', { required: true })}
               className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
             />

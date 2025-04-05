@@ -1,7 +1,8 @@
-import React, { useEffect,useState,useCallback  } from 'react'
+import React, { useEffect,useState  } from 'react'
 import { productApi } from '../../backend/product.api'
 import { useSelector } from 'react-redux';
 import {Loader} from "../export"
+import  {Link} from "react-router-dom"
 
 function MyProducts() {
     const [products, setProducts] = useState([]);
@@ -10,20 +11,20 @@ function MyProducts() {
 
 const DeleteProduct =(data)=>{
   productApi.DeleteProduct(data._id).then((data)=>{
-    console.log(data)
+    GetAllproducts(token)
   })
 }
-  
 
-
-    useEffect(()=>{
-
+   function GetAllproducts(token){
         productApi.GetSellerProducts(token).then((data)=>{
             setProducts(data.data.products);
             setLoading(false);
         })
+      }
 
-    },[DeleteProduct])
+    useEffect(()=>{
+      GetAllproducts(token)
+    },[])
 
 
     if (loading) {
@@ -42,7 +43,7 @@ const DeleteProduct =(data)=>{
                   className="border rounded-lg shadow-md p-4 flex flex-col items-center"
                 >
                   <img
-                    src={product.image} // Assuming `imageUrl` is the product image field
+                    src={product.image} 
                     alt={product.title}
                     className="w-full h-40 object-cover mb-4"
                   />
@@ -50,9 +51,11 @@ const DeleteProduct =(data)=>{
                   <p className="text-lg text-gray-700 mt-2">${product.price}</p>
                   <p className="text-sm text-gray-500 mt-1">{product.description}</p>
                   <div className="mt-4">
-                    <button className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition">
+                    <Link state={product} 
+                      to='/SellerDashborad/add-product'
+                    className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 hover:cursor-pointer transition">
                       Edit Product
-                    </button>
+                    </Link>
                     <button 
                     onClick={()=>DeleteProduct(product)}
                     className="bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600 transition ml-4">

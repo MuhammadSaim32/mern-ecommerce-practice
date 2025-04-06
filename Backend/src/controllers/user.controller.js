@@ -188,6 +188,19 @@ return  res.json({message: 'Password reset successfully.login using new password
 }
 }
 
+const GetAllUser =async(req,res)=>{
+    if (req.user.role !== 'admin') {
+        return res.status(403).json({ message: "Access denied. Admins only." });
+    }
+    
+
+  const user = await  userModel.find()
+res.status(200).json({
+    users:user,
+})
+}
+
+
 
 export {
     registerUser,
@@ -195,7 +208,8 @@ export {
     deleteUser,
     UserDetailsById,
     ResetPassword,
-    ForgotPassword
+    ForgotPassword,
+    GetAllUser
 }
 
 

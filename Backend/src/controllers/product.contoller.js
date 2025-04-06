@@ -4,8 +4,9 @@ import userModel from '../models/user.model.js'
 import mongoose from "mongoose"
 
 const uploadProduct=async(req, res) => {
-    conole.log(req.body)
-const {id}= req.user
+const {id}= req.query
+console.log(req.query)
+if(!id){
     const {title,description,price,stock}=req.body
 
 if([title,description,price,stock].some((val)=>val=="")){
@@ -22,11 +23,38 @@ const ImageUrl = await uploadImageOncloudinary(productImagePath)
 const uploadedProduct = await productModel.create({title,description,price,stock,image:ImageUrl,sellerId:id})
  
 
-    res.status(200).json({
+   return  res.status(200).json({
         message: "Product  uploaded successfully!",
         uploadedProduct,
     });
+}else{
 
+    const {title,description,price,stock}=req.body
+
+    if([title,description,price,stock].some((val)=>val=="")){
+    
+        return res.status(400).send('All Fields are required')
+    }  
+     if (!req.file) {
+            return res.status(400).json({ error: "No file uploaded!" });
+        }
+    const productImagePath=req.file.path;
+    const ImageUrl = await uploadImageOncloudinary(productImagePath)
+    const existingproduct = await  productModel.findById(id)
+    existingproduct.title=title
+    existingproduct.description=description
+    existingproduct.price=price
+    existingproduct.stock=stock
+    existingproduct.image=ImageUrl
+    await existingproduct.save()
+    const response = await  productModel.findById(id)
+
+   return  res.status(200).json({
+        message:"product updated successfully",
+        product:response
+    })
+    
+}
 }
 
 const GetAllProducts=async(req,res)=>{
@@ -156,37 +184,6 @@ return res.json({
 }
 
 
-const EditProduct=async(req, res) => {
-
-    const {id}= req.body
-
-        const {title,description,price,stock}=req.body
-    
-    if([title,description,price,stock].some((val)=>val=="")){
-    
-        return res.status(400).send('All Fields are required')
-    }  
-     if (!req.file) {
-            return res.status(400).json({ error: "No file uploaded!" });
-        }
-    
-    const productImagePath=req.file.path;
-    const ImageUrl = await uploadImageOncloudinary(productImagePath)
-    
-    const product =await productModel.findById({id})
-     product.title=title
-     product.description=description
-     product.price=price
-     product.stock=stock
-     product.image=ImageUrl
-   await   product.save()
-    
-        res.status(200).json({
-            message: "Product  details updated  successfully!",
-            uploadedProduct,
-        });
-    
-    }
 
 
 export {
@@ -200,7 +197,6 @@ export {
     SellerSpecficProducts,
     DeleteProduct,
     OutOfStockProducts,
-    EditProduct
 
 }
 

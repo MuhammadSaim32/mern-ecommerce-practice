@@ -3,7 +3,7 @@ import api from "./axios.api"
 class usersAuth{
     
     async  registerUser({username,email,password},pathname) {
-        console.log(pathname)
+
         if(pathname.includes('seller')){
             const response=  await api.post('/users/register/seller',{username,email,password})
         return response
@@ -45,6 +45,14 @@ class usersAuth{
         return response 
     }
     
+    async GetAllUser(token) {
+     const response  = await api.post('/users/admin/get-all-users',{},{
+        headers:{
+            'Authorization' :`Bearer ${token}`
+        }
+     })
+     return response
+    }
 }
 
 

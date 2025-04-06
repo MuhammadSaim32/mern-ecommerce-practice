@@ -51,8 +51,8 @@ const navbar = [
     { navItem: 'Login', path: '/login',Auth:!Auth },
     { navItem: 'Register', path: '/register',Auth:!Auth },
     { navItem: 'SellerSignup', path: '/register/seller',Auth:!Auth },
-    { navItem: 'AdminPanel', path: '/AdminPanel',Auth: (Auth && userDetails?.role==='admin' ) ? true:false },
-    { navItem: 'SellerDesk', path: '/SellerDashborad',Auth: (Auth && userDetails?.role==='seller' || userDetails?.role==='admin' ) ? true:false },
+    { navItem: 'AdminPanel', path: '/admin',Auth: (Auth && userDetails?.role==='admin' ) ? true:false },
+    { navItem: 'SellerDesk', path: '/SellerDashborad',Auth: (Auth && userDetails?.role==='seller') ? true:false },
 
   ];
 

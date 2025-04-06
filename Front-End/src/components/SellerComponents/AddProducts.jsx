@@ -37,8 +37,9 @@ formData.append('title',data.title)
 formData.append('description',data.description) 
 formData.append('price',data.price) 
 formData.append('stock',data.stock)
+const id=state?._id ? state._id :""
 
- const response = await productApi.uploadProduct(formData,token,state?._id)
+const response = await productApi.uploadProduct(formData,token,id)
  .then(()=>{
   navigate('/')
  })

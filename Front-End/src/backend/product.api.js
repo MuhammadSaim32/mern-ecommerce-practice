@@ -1,12 +1,14 @@
 import api from "./axios.api"
 
 class productsApi {
-    async uploadProduct( formData,token,{id}) {
-        console.log(token)
+    async uploadProduct( formData,token,id) {
+            console.log(id)
+    
         const response = await api.post(
-            '/products/upload',
-             formData,
-             id,{ 
+            `/products/upload?id=${id}`,
+            formData,
+             
+             { 
             headers: {
                 Authorization: `Bearer ${token}`
             }

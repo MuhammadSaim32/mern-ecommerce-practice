@@ -7,7 +7,7 @@ import { PersistGate } from 'redux-persist/integration/react' //PersistGate dela
 import { Provider } from 'react-redux'
 import { Home ,ResetPassword,RegisterUser,PaymentFailed,NotFound,Login,Product,CartPage,ForgetPassword,Checkout} from './components/export'
 import {SellerBashborad,SellerApp,AddProducts,MyProducts,OutOfStockProducts} from "./components/SellerComponents/Seller.export.js"
-import {AdminDashboard,AdminApp,Users,Products} from "./components/AdminComponents/admin.export.js"
+import {AdminDashboard,AdminApp,Users,Products,ManageUsers} from "./components/AdminComponents/admin.export.js"
 import { createBrowserRouter ,RouterProvider } from 'react-router-dom'
 
 const route = createBrowserRouter([
@@ -66,7 +66,11 @@ const route = createBrowserRouter([
       {
         path:'/admin/Products',
         element:<Products/>
-      }
+      },
+      {
+path:'/admin/manage/users',
+element:<ManageUsers/>
+      },
     ]
     },
     {

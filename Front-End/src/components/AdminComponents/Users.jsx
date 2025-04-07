@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import userAuth from "../../backend/users.Api";
 import { useSelector } from "react-redux";
 import Loader from "../Loader";
+import {Link} from "react-router-dom"
 
 function Users() {
   const token = useSelector((state) => state.AuthSlice.userDetails);
@@ -32,6 +33,7 @@ function Users() {
                 <th className="py-3 px-4 text-left">Name</th>
                 <th className="py-3 px-4 text-left">Email</th>
                 <th className="py-3 px-4 text-left">Role</th>
+                <th className="py-3 px-4 text-left">Manage</th>
               </tr>
             </thead>
             <tbody className="text-gray-700 text-sm">
@@ -44,7 +46,14 @@ function Users() {
                   <td className="py-3 px-4">{user.username}</td>
                   <td className="py-3 px-4">{user.email}</td>
                   <td className="py-3 px-4 capitalize">{user.role}</td>
-                 
+              <td>    <Link
+          to="/admin/manage/users"
+          state={user}
+          className="bg-blue-500 hover:bg-blue-600 text-white font-medium px-3 py-1.5 rounded-md text-sm transition duration-200"
+        >
+          ⚙️ Manage
+        </Link>
+        </td>
                 </tr>
               ))}
             </tbody>

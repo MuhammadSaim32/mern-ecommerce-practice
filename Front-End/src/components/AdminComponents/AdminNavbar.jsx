@@ -28,12 +28,6 @@ function AdminNavbar(){
           ))}
         </ul>
         {/* Manage Button */}
-        <Link
-          to="/admin/manage"
-          className="bg-blue-500 hover:bg-blue-600 text-white font-medium px-3 py-1.5 rounded-md text-sm transition duration-200"
-        >
-          ⚙️ Manage
-        </Link>
       </div>
     </nav>
   );

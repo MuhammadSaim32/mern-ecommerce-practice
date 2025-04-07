@@ -84,11 +84,13 @@ console.log(token)
 
 }
 
-const deleteUser=async(req,res)=>{
-    const {email} = req.body;
+const deleteUserById=async(req,res)=>{
+    const {id} = req.query
+    const DeletedCount = await userModel.findByIdAndDelete(id)  // returns how many  Number of  documents is deleted 
+    return res.status(200).json({
+        message:"User Deleted successfully"
+    })
 
-
-    const DeletedCount = await userModel.deleteOne({email})  // returns how many  Number of  documents is deleted 
 }
 
 
@@ -202,14 +204,30 @@ res.status(200).json({
 
 
 
+const SaveChangesByAdmin = async(req,res)=>{
+    const {id}= req.query
+    console.log(req.body)
+    const {username,email,role}=req.body
+    const user = await userModel.findById(id)
+    user.username=username
+    user.email=email
+    user.role=role
+    await user.save()
+   return  res.status(200).json({
+    message: 'Changes saved successfully',
+   })
+}
+
+
 export {
     registerUser,
     loginUser,
-    deleteUser,
     UserDetailsById,
     ResetPassword,
     ForgotPassword,
-    GetAllUser
+    GetAllUser,
+    deleteUserById,
+    SaveChangesByAdmin
 }
 
 

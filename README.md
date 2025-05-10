@@ -71,6 +71,6 @@ This is a **MERN stack-based eCommerce web application** developed for learning 
 
 ## 📽️ Demo
 
-[*(Insert your demo video link or screenshots here if you're uploading the project)*](https://www.linkedin.com/feed/update/urn:li:activity:7327070193967382530/)
+[*(video)*](https://www.linkedin.com/feed/update/urn:li:activity:7327070193967382530/)
 
 ---

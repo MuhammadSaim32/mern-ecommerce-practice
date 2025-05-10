@@ -1,6 +1,6 @@
 # 🛒 MERN Stack eCommerce App
 
-This is a **MERN stack-based eCommerce web application** developed for learning purposes. It supports **multiple user roles** — user, seller, and admin — and includes full authentication, product management, and payment processing functionality.
+This is a **MERN stack-based eCommerce web application** developed for learning purposes. It supports **multiple user roles** — user, seller, and admin — and includes  authentication, product management, and payment processing functionality.
 
 ---
 

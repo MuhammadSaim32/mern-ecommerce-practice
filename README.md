@@ -13,7 +13,7 @@ This is a **MERN stack-based eCommerce web application** developed for learning 
 - **React Router DOM** – Routing between pages  
 - **React Hook Form** – Form management and validation  
 - **Axios** – API communication  
-- **Stripe JS** – Stripe integration for frontend payments  
+- **Stripe JS** – Stripe integration
 - **Tailwind CSS** – Basic styling  
 - **jwt-decode** – Decode JWT tokens on the frontend  
 - **AI Tools like ChatGPT** – Used for markup/layout suggestions
@@ -66,28 +66,12 @@ This is a **MERN stack-based eCommerce web application** developed for learning 
 
 ## ⚠️ Notes
 
-> 🎨 This project was focused entirely on backend logic, authentication, and role-based systems. I did **not focus on design, responsiveness, or layout polish** intentionally — those improvements may be added later if needed.
+> 🎨 This project was focused entirely on backend logic, authentication, and role-based systems. I did **not focus on design, responsiveness, or layout polish** ...
 
 ---
 
 ## 📽️ Demo
 
 *(Insert your demo video link or screenshots here if you're uploading the project)*
-
----
-
-## 📂 How to Run Locally
-
-1. Clone the repository
-2. Run `npm install` in both frontend and backend directories
-3. Create `.env` files with necessary variables (like MongoDB URI, Stripe keys, JWT secret, etc.)
-4. Start backend and frontend servers
-5. Visit `http://localhost:3000`
-
----
-
-## 📧 Contact
-
-Feel free to reach out for feedback or collaboration ideas!
 
 ---

@@ -16,7 +16,7 @@ This is a **MERN stack-based eCommerce web application** developed for learning 
 - **Stripe JS** – Stripe integration
 - **Tailwind CSS** – Basic styling  
 - **jwt-decode** – Decode JWT tokens on the frontend  
-- **AI Tools like ChatGPT** – Used for markup/layout suggestions
+- **AI Tools like ChatGPT** – Used for markup/layout 
 
 ### 🔹 Backend:
 - **Node.js** (JavaScript runtime)
@@ -58,7 +58,6 @@ This is a **MERN stack-based eCommerce web application** developed for learning 
 - 🛒 Shopping cart functionality  
 - 🧾 Stripe payment integration  
 - 🖼️ Image upload via Cloudinary  
-- 🧪 Role-based access and dashboard views  
 - 🔧 Seller product management  
 - 👮 Admin user management
 
@@ -72,6 +71,6 @@ This is a **MERN stack-based eCommerce web application** developed for learning 
 
 ## 📽️ Demo
 
-*(Insert your demo video link or screenshots here if you're uploading the project)*
+[*(Insert your demo video link or screenshots here if you're uploading the project)*](https://www.linkedin.com/feed/update/urn:li:activity:7327070193967382530/)
 
 ---

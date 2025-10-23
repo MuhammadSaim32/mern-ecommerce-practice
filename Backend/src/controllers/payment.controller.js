@@ -33,8 +33,8 @@ const checkoutSession = async (req, res) => {
           quantity: item.quantity,
         };
       }),
-      success_url: "http://localhost:5173/checkout",
-      cancel_url: "http://localhost:5173/cancel",
+      success_url: `${process.env.FRONTEND_URL}/checkout`,
+      cancel_url: `${process.env.FRONTEND_URL}/cancel`,
     });
     res.json({ session: session });
   } catch (e) {

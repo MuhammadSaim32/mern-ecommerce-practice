@@ -2,52 +2,45 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { productApi } from "../backend/product.api";
 import { Loader } from "./export";
-import { useDispatch,useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../store/CartSlice";
 
 export default function Home() {
-  
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  
-  
-  
+
   const [products, setproducts] = useState([]);
   const [loading, setloading] = useState(true);
   const [addedProductIds, setAddedProductIds] = useState([]);
-  const cartDetails =useSelector((state)=>state.CartSlice.cart)
-  const userStatus=  useSelector((state)=>state.AuthSlice.status)
-  const token = useSelector((state)=>state.AuthSlice.userDetails)
-  
-  console.log(cartDetails)
-  
+  const cartDetails = useSelector((state) => state.CartSlice.cart);
+  const userStatus = useSelector((state) => state.AuthSlice.status);
+  const token = useSelector((state) => state.AuthSlice.userDetails);
+
+  console.log(cartDetails);
+
   useEffect(() => {
     productApi.GetAllProducts().then((data) => {
       setproducts(data);
       setloading(false);
-    })
-
+    });
   }, []);
 
-  useEffect(()=>{
-  const product=cartDetails.map((val)=> val.product)
-  console.log(product)
-    setAddedProductIds(product)
-  },[cartDetails])
+  useEffect(() => {
+    const product = cartDetails.map((val) => val.product);
+    console.log(product);
+    setAddedProductIds(product);
+  }, [cartDetails]);
 
-
-  const addCart = async(product) => {
-    
-   
+  const addCart = async (product) => {
     let obj = {
       product: product._id,
       quantity: 1,
     };
 
     dispatch(addToCart(obj));
-    setAddedProductIds((prev)=>[...prev,obj.product])
-const response = await productApi.AddCart(token,obj)
-    console.log(response)
+    setAddedProductIds((prev) => [...prev, obj.product]);
+    const response = await productApi.AddCart(token, obj);
+    console.log(response);
   };
 
   return loading ? (
@@ -57,12 +50,14 @@ const response = await productApi.AddCart(token,obj)
       {/* Hero Section */}
       <header className="bg-green-600 text-white text-center py-20">
         <h2 className="text-5xl font-bold">Discover the Best Deals</h2>
-        <p className="mt-4 text-xl">Shop quality products at the best prices.</p>
+        <p className="mt-4 text-xl">
+          Shop quality products at the best prices.
+        </p>
         <button className="mt-6 bg-yellow-500 px-8 py-3 rounded-lg text-white hover:bg-yellow-600 transition duration-300">
           Shop Now
         </button>
       </header>
-      
+
       {/* Centered Message for Not Logged In Users */}
       {!userStatus && (
         <div className="flex justify-center items-center my-8">
@@ -78,7 +73,6 @@ const response = await productApi.AddCart(token,obj)
           Featured Products
         </h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-
           {products.map((product) => (
             <div
               className="bg-white rounded-lg shadow-lg hover:shadow-xl transition duration-300 overflow-hidden"
@@ -117,17 +111,18 @@ const response = await productApi.AddCart(token,obj)
                 ) : (
                   <button
                     onClick={() => addCart(product)}
-                    disabled={!userStatus ||  product.stock<=0 ? true:false}
+                    disabled={!userStatus || product.stock <= 0 ? true : false}
                     className={`w-1/2 bg-blue-600 text-white py-2 px-4 rounded-bl-lg hover:bg-black focus:outline-none focus:ring-2 focus:ring-black transition duration-300
-                    ${product.stock<=0 ? "opacity-50 cursor-not-allowed":""}`}
+                    ${product.stock <= 0 ? "opacity-50 cursor-not-allowed" : ""}`}
                   >
                     Add to Cart
                   </button>
                 )}
-         <div className="w-1/2 bg-gray-200 text-gray-800 py-2 px-4 rounded-br-lg flex justify-center items-center text-sm font-semibold">
-          {product.stock > 0 ? `Stock: ${product.stock}` : "Out of Stock"}
-</div>
-
+                <div className="w-1/2 bg-gray-200 text-gray-800 py-2 px-4 rounded-br-lg flex justify-center items-center text-sm font-semibold">
+                  {product.stock > 0
+                    ? `Stock: ${product.stock}`
+                    : "Out of Stock"}
+                </div>
               </div>
             </div>
           ))}

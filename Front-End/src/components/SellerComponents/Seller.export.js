@@ -1,14 +1,17 @@
-import SellerNavbar from "./Navbar"
-import  SellerBashborad from "./SellerBashborad"
-import AddProducts from "./AddProducts"
-import SellerApp from "./SellerApp"
-import  MyProducts from './MyProducts'
-import OutOfStockProducts from "./OutOfStockProudcts"
+import SellerNavbar from "./Navbar";
+import SellerBashborad from "./SellerBashborad";
+import AddProducts from "./AddProducts";
+import SellerApp from "./SellerApp";
+import MyProducts from "./MyProducts";
+import OutOfStockProducts from "./OutOfStockProudcts";
+import Orders from "./Orders.jsx";
 export {
-    SellerNavbar,
-    AddProducts,
-    SellerBashborad,
-    SellerApp,
-    MyProducts,
-    OutOfStockProducts,
-}
+  SellerNavbar,
+  AddProducts,
+  SellerBashborad,
+  SellerApp,
+  MyProducts,
+  OutOfStockProducts,
+  Orders,
+};
+

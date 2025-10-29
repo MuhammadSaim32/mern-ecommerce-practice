@@ -1,112 +1,119 @@
-import api from "./axios.api"
+import api from "./axios.api";
 
 class productsApi {
-    async uploadProduct( formData,token,id) {
-            console.log(id)
-    
-        const response = await api.post(
-            `/products/upload?id=${id}`,
-            formData,
-             
-             { 
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-            }
-        )
-        return response
-    }
+  async uploadProduct(formData, token, id) {
+    console.log(id);
 
-    async GetAllProducts() {
-        const response = await api.post('/products/all')
-        return response.data.products
-    }
+    const response = await api.post(
+      `/products/upload?id=${id}`,
+      formData,
 
-    async AddCart(token,product){
-        const response = await api.post('/products/cart/add',
-            product,
-            {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        }
-        )
-    
-        return  response 
-    }
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
+    return response;
+  }
 
-    async FetchProductById(ids){
-        const response  = await api.post('/products/cart/products',
-            ids
-        )
-        return response
-    }
+  async GetAllProducts() {
+    const response = await api.post("/products/all");
+    return response.data.products;
+  }
 
-    async ClearCartFromBackend(token){
-        const  response  =  await api.post('/products/cart/clear',{},{
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        })
-            return response
-        }
+  async AddCart(token, product) {
+    const response = await api.post("/products/cart/add", product, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
-        async DecreaseItem(token,product){
-          const  response  = await  api.post('/products/cart/decrease',product,{
-                headers:{
-                    Authorization:`Bearer ${token}`
-                }
-            })
+    return response;
+  }
 
-                return response 
-        }
+  async FetchProductById(ids) {
+    const response = await api.post("/products/cart/products", ids);
+    return response;
+  }
 
-        async RemoveItem(token,product){
-            const  response  = await  api.post('/products/cart/remove',product,{
-                  headers:{
-                      Authorization:`Bearer ${token}`
-                  }
-              })
-  
-                  return response 
-          }
+  async ClearCartFromBackend(token) {
+    const response = await api.post(
+      "/products/cart/clear",
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
+    return response;
+  }
 
-        async handlepayment(data,token){
-            const response = await api.post('/payment/stripeSession',data,{
-                headers:{
-                    Authorization:`Bearer ${token}`
-                }
-            })
-            return response 
-        }
+  async DecreaseItem(token, product) {
+    const response = await api.post("/products/cart/decrease", product, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
-        async GetSellerProducts(token){
-        const resposne =    await api.post('/products/seller/product',token,{
-            headers:{
-                Authorization:`Bearer ${token}`
-            }
-        })
-            return resposne
-    }
+    return response;
+  }
 
-    async DeleteProduct(_id){
-     const res =  await  api.delete(`/products/seller/delete/product?id=${_id}`)
-     return res
-        }
+  async RemoveItem(token, product) {
+    const response = await api.post("/products/cart/remove", product, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
-        async GetOutOfStockProducts(token){
-          const res = await  api.post('/products/seller/outofstock',{},
-                {
-                    headers:{
-                        Authorization:`Bearer ${token}`
-                    }
-                }
-            )
-            return res
-        }
+    return response;
+  }
 
+  async handlepayment(data, token) {
+    const response = await api.post("/payment/stripeSession", data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response;
+  }
+
+  async GetSellerProducts(token) {
+    const resposne = await api.post("/products/seller/product", token, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return resposne;
+  }
+
+  async DeleteProduct(_id) {
+    const res = await api.delete(`/products/seller/delete/product?id=${_id}`);
+    return res;
+  }
+
+  async GetOutOfStockProducts(token) {
+    const res = await api.post(
+      "/products/seller/outofstock",
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
+    return res;
+  }
+
+  async GetSellerOders(token) {
+    const resposne = await api.post("/products/seller/orders", token, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return resposne;
+  }
 }
 
-export const productApi = new productsApi()
-
-
+export const productApi = new productsApi();

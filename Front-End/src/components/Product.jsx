@@ -1,5 +1,5 @@
-import React from 'react';
-import { useLocation } from 'react-router-dom';
+import React from "react";
+import { useLocation } from "react-router-dom";
 
 export default function Product() {
   const { state } = useLocation();
@@ -22,9 +22,15 @@ export default function Product() {
         {/* Info Section */}
         <div className="flex flex-col justify-between">
           <div>
-            <h1 className="text-3xl md:text-4xl font-bold text-gray-900">{title}</h1>
-            <p className="text-2xl text-blue-600 font-semibold mt-4">${price}</p>
-            <p className="text-gray-700 mt-6 text-base leading-relaxed">{description}</p>
+            <h1 className="text-3xl md:text-4xl font-bold text-gray-900">
+              {title}
+            </h1>
+            <p className="text-2xl text-blue-600 font-semibold mt-4">
+              ${price}
+            </p>
+            <p className="text-gray-700 mt-6 text-base leading-relaxed">
+              {description}
+            </p>
           </div>
 
           <div className="mt-10">

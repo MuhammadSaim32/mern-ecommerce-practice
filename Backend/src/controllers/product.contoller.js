@@ -164,7 +164,6 @@ const DeleteProduct = async (req, res) => {
 };
 
 const OutOfStockProducts = async (req, res) => {
-  console.log(req.user.id);
   const { id } = req.user;
   const products = await productModel.find({
     sellerId: id,
@@ -173,6 +172,17 @@ const OutOfStockProducts = async (req, res) => {
 
   return res.json({
     products: products,
+  });
+};
+
+//for both user and seller
+
+const GetOrderOfSeller = async (req, res) => {
+  const sellerId = req.user.id;
+  const SellerProducts = await userModel.findOne({ _id: sellerId });
+
+  return res.json({
+    Orders: SellerProducts.Orders,
   });
 };
 
@@ -187,4 +197,5 @@ export {
   SellerSpecficProducts,
   DeleteProduct,
   OutOfStockProducts,
+  GetOrderOfSeller,
 };

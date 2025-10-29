@@ -4,19 +4,37 @@ import productModel from "../models/product.model.js";
 import "dotenv/config";
 
 const handlePaymentIntentSucceeded = async (userId) => {
+  //get user details by id
   const user = await userModel.findById(userId);
-  console.log(user.cart.product);
+  //get productIds from users cart
   const productsId = user.cart?.map((val) => val.product);
+  //get productDetails from product Id
+
+  let UserOrder = user.Orders;
+
+  //loop on cart
+  for (let i = 0; i < user.cart.length; i++) {
+    UserOrder.push(user.cart[i]);
+  }
+
   const productDetails = await productModel.find({ _id: { $in: productsId } });
-  // const sellerDetails = [];
-  // for (let i = 0; i < productDetails.length; i++) {
-  //   let obj = await userModel.findOne({ sellerId: productDetails[i].sellerId });
-  //
-  //   sellerDetails.push(obj);
-  // }
-  //
-  // let orders = [];
-  //
+
+  for (let i = 0; i < productDetails.length; i++) {
+    let SellerId = await userModel.findOne({
+      _id: productDetails[i].sellerId,
+    });
+    let obj = {
+      quantity: user.cart[i].quantity,
+      productid: productDetails[i]._id,
+      userid: userId,
+    };
+
+    SellerId.Orders[SellerId.Orders.length] = obj;
+    await SellerId.save();
+  }
+
+  let orders = [];
+
   for (let i = 0; i < productDetails.length; i++) {
     productDetails[i].stock -= user.cart[i].quantity;
     if (productDetails[i].stock <= 0) {
@@ -31,7 +49,6 @@ const handlePaymentIntentSucceeded = async (userId) => {
 };
 
 const StripeWebhook = async (req, res) => {
-  console.log("----------------------------------------");
   const rawbody = req.body;
   const sig = req.headers["stripe-signature"];
 
@@ -46,9 +63,7 @@ const StripeWebhook = async (req, res) => {
   } catch (err) {
     return res.status(400).send(`Webhook Error: ${err.message}`);
   }
-  console.log(even);
   const event = JSON.parse(rawbody.toString());
-  console.log(event.type);
 
   switch (event.type) {
     case "payment_intent.succeeded":
@@ -57,7 +72,6 @@ const StripeWebhook = async (req, res) => {
         payment_intent: paymentIntentId, // Link to the Payment Intent
         limit: 1,
       });
-      console.log("session here ", sessions);
       const { userId } = sessions.data[0].metadata;
       handlePaymentIntentSucceeded(userId);
       return res.json({ received: true });
@@ -71,4 +85,3 @@ const StripeWebhook = async (req, res) => {
 };
 
 export { StripeWebhook };
-

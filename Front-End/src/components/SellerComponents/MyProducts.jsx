@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { productApi } from '../../backend/product.api';
-import { useSelector } from 'react-redux';
+import React, { useEffect, useState } from "react";
+import { productApi } from "../../backend/product.api";
+import { useSelector } from "react-redux";
 import { Loader } from "../export";
 import { Link } from "react-router-dom";
 
 function MyProducts() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const token = useSelector(state => state.AuthSlice.userDetails);
+  const token = useSelector((state) => state.AuthSlice.userDetails);
 
   const DeleteProduct = (product) => {
     productApi.DeleteProduct(product._id).then(() => {
@@ -30,10 +30,14 @@ function MyProducts() {
 
   return (
     <div className="container mx-auto py-10 px-4">
-      <h2 className="text-3xl font-bold text-center text-gray-800 mb-10">My Products</h2>
+      <h2 className="text-3xl font-bold text-center text-gray-800 mb-10">
+        My Products
+      </h2>
 
       {products.length === 0 ? (
-        <p className="text-center text-gray-600 text-lg">No products found. Add new products!</p>
+        <p className="text-center text-gray-600 text-lg">
+          No products found. Add new products!
+        </p>
       ) : (
         <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
           {products.map((product) => (
@@ -48,9 +52,15 @@ function MyProducts() {
               />
               <div className="p-5 flex flex-col h-full justify-between">
                 <div>
-                  <h3 className="text-xl font-semibold text-gray-800">{product.title}</h3>
-                  <p className="text-gray-600 mt-1 text-sm line-clamp-2">{product.description}</p>
-                  <p className="text-lg font-bold text-blue-600 mt-2">${product.price}</p>
+                  <h3 className="text-xl font-semibold text-gray-800">
+                    {product.title}
+                  </h3>
+                  <p className="text-gray-600 mt-1 text-sm line-clamp-2">
+                    {product.description}
+                  </p>
+                  <p className="text-lg font-bold text-blue-600 mt-2">
+                    ${product.price}
+                  </p>
                 </div>
 
                 <div className="mt-6 flex justify-between items-center">

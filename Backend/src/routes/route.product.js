@@ -2,6 +2,7 @@ import express from "express";
 const productRouter = express.Router();
 import { upload } from "../middlewears/multer.middlewear.js";
 import {
+  GetProductById,
   GetOrderOfSeller,
   uploadProduct,
   GetAllProducts,
@@ -12,7 +13,9 @@ import {
   ClearCart,
   decrease,
   removeItem,
+  GetOrdersOfuser,
   SellerSpecficProducts,
+  changeOrderStatus,
 } from "../controllers/product.contoller.js";
 import auth from "../middlewears/auth.middlewear.js";
 
@@ -27,5 +30,7 @@ productRouter.post("/seller/product", auth, SellerSpecficProducts);
 productRouter.delete("/seller/delete/product", DeleteProduct);
 productRouter.post("/seller/outofstock", auth, OutOfStockProducts);
 productRouter.post("/seller/orders", auth, GetOrderOfSeller);
+productRouter.post("/user/product", GetProductById);
+productRouter.post("/user/orders", auth, GetOrdersOfuser);
+productRouter.post("/seller/changestatus", auth, changeOrderStatus);
 export default productRouter;
-

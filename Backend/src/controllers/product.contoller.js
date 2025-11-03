@@ -93,7 +93,9 @@ const AddtoCart = async (req, res) => {
 };
 
 const fetchCartProducts = async (req, res) => {
+  console.log(req.body);
   const response = await productModel.find({ _id: { $in: req.body } });
+  console.log(response);
   return res.status(200).json({
     products: response,
   });
@@ -180,10 +182,53 @@ const OutOfStockProducts = async (req, res) => {
 const GetOrderOfSeller = async (req, res) => {
   const sellerId = req.user.id;
   const SellerProducts = await userModel.findOne({ _id: sellerId });
-
   return res.json({
-    Orders: SellerProducts.Orders,
+    Orders: SellerProducts.SellerOrders,
   });
+};
+
+const GetOrdersOfuser = async (req, res) => {
+  const UserId = req.user.id;
+  const UserProducts = await userModel.findOne({ _id: UserId });
+  return res.json({
+    Orders: UserProducts.UserOrders,
+  });
+};
+
+const GetProductById = async (req, res) => {
+  const productDetails = [];
+  for (let i = 0; i < req.body.length; i++) {
+    const response = await productModel.findOne({ _id: req.body[i] });
+    productDetails.push(response);
+  }
+  return res.status(200).json({
+    productDetails,
+  });
+};
+
+const changeOrderStatus = async (req, res) => {
+  const userid = req.body.userid;
+  console.log(req.user);
+  const userDetails = await userModel.findOne({ _id: userid });
+  for (let i = 0; i < userDetails.UserOrders.length; i++) {
+    if (userDetails.UserOrders[i].productid == req.body.productid) {
+      userDetails.UserOrders[i].status = req.body.updaterequest;
+      await userDetails.save();
+    }
+  }
+
+  const sellerDetails = await userModel.findOne({ _id: req.user.id });
+  for (let i = 0; i < sellerDetails.SellerOrders.length; i++) {
+    if (
+      sellerDetails.SellerOrders[i].productid == req.body.productid &&
+      sellerDetails.SellerOrders[i].userid == userid
+    ) {
+      sellerDetails.SellerOrders[i].status = req.body.updaterequest;
+      await sellerDetails.save();
+    }
+  }
+
+  res.send("done ");
 };
 
 export {
@@ -198,4 +243,7 @@ export {
   DeleteProduct,
   OutOfStockProducts,
   GetOrderOfSeller,
+  GetProductById,
+  GetOrdersOfuser,
+  changeOrderStatus,
 };

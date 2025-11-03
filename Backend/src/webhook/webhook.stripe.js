@@ -9,12 +9,16 @@ const handlePaymentIntentSucceeded = async (userId) => {
   //get productIds from users cart
   const productsId = user.cart?.map((val) => val.product);
   //get productDetails from product Id
-
-  let UserOrder = user.Orders;
-
+  console.log("user cart is loged:", user.cart);
   //loop on cart
+
   for (let i = 0; i < user.cart.length; i++) {
-    UserOrder.push(user.cart[i]);
+    let obj = {
+      productid: user.cart[i].product,
+      quantity: user.cart[i].quantity,
+      userid: userId,
+    };
+    user.UserOrders.push(obj);
   }
 
   const productDetails = await productModel.find({ _id: { $in: productsId } });
@@ -29,7 +33,7 @@ const handlePaymentIntentSucceeded = async (userId) => {
       userid: userId,
     };
 
-    SellerId.Orders[SellerId.Orders.length] = obj;
+    SellerId.SellerOrders[SellerId.SellerOrders.length] = obj;
     await SellerId.save();
   }
 

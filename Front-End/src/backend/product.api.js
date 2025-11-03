@@ -114,6 +114,29 @@ class productsApi {
     });
     return resposne;
   }
+
+  async FetchUserOrder(ids) {
+    const response = await api.post("/products/user/product", ids);
+    return response;
+  }
+
+  async fetchUserOrder(token) {
+    const resposne = await api.post("/products/user/orders", token, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return resposne;
+  }
+
+  async changeOrderStatus(data, token) {
+    const response = await api.post("/products/seller/changestatus", data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response;
+  }
 }
 
 export const productApi = new productsApi();

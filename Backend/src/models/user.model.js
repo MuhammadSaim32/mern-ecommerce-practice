@@ -30,7 +30,24 @@ const userSchema = new mongoose.Schema(
         },
       },
     ],
-    Orders: [
+    UserOrders: [
+      {
+        productid: {
+          type: String,
+        },
+        status: {
+          type: String,
+          default: "pending",
+        },
+        quantity: {
+          type: Number,
+        },
+        userid: {
+          type: String,
+        },
+      },
+    ],
+    SellerOrders: [
       {
         productid: {
           type: String,

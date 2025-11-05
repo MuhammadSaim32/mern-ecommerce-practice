@@ -29,9 +29,24 @@ const productSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "user",
   },
+  review: [
+    {
+      content: {
+        type: String,
+        required: true,
+      },
+      username: {
+        type: String,
+        required: true,
+      },
+      userid: {
+        type: String,
+        required: true,
+      },
+    },
+  ],
 });
 
 const productModel = mongoose.model("product", productSchema);
 
 export default productModel;
-

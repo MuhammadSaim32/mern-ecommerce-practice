@@ -23,10 +23,7 @@ function NavBar() {
   const Auth = useSelector((state) => state.AuthSlice.status);
   const decode = useSelector((state) => state.AuthSlice.userDetails);
 
-  console.log(clicked);
-
   const changeicon = () => {
-    console.log(clicked);
     if (clicked == faBars) {
       setclicked(faTimes);
       setdisplay("block");
@@ -43,9 +40,7 @@ function NavBar() {
   let userDetails;
   if (decode) {
     userDetails = jwtDecode(decode);
-    console.log(userDetails);
   }
-  console.log(userDetails);
   const navbar = [
     { navItem: "Home", path: "/", Auth: true },
     { navItem: "Login", path: "/login", Auth: !Auth },

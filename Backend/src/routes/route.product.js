@@ -16,6 +16,9 @@ import {
   GetOrdersOfuser,
   SellerSpecficProducts,
   changeOrderStatus,
+  AddReview,
+  deleteReview,
+  getproductByproductid,
 } from "../controllers/product.contoller.js";
 import auth from "../middlewears/auth.middlewear.js";
 
@@ -33,4 +36,7 @@ productRouter.post("/seller/orders", auth, GetOrderOfSeller);
 productRouter.post("/user/product", GetProductById);
 productRouter.post("/user/orders", auth, GetOrdersOfuser);
 productRouter.post("/seller/changestatus", auth, changeOrderStatus);
+productRouter.post("/review", auth, AddReview);
+productRouter.post("/review/delete", auth, deleteReview);
+productRouter.post("/productByid", getproductByproductid);
 export default productRouter;

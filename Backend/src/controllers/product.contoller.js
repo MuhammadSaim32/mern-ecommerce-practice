@@ -231,6 +231,45 @@ const changeOrderStatus = async (req, res) => {
   res.send("done ");
 };
 
+const AddReview = async (req, res) => {
+  const data = await productModel.findOne({ _id: req.body.productid });
+  if (req.body.content == "") return res.send("not review added");
+  let obj = {
+    username: req.user.username,
+    userid: req.user.id,
+    content: req.body.content,
+  };
+  let bool = true;
+  for (let i = 0; i < data.review.length; i++) {
+    if (data.review[i].userid == req.user.id) {
+      data.review[i] = obj;
+      bool = false;
+    }
+  }
+  if (bool) {
+    data.review.push(obj);
+  }
+  await data.save();
+  res.send("ok");
+};
+
+const getproductByproductid = async (req, res) => {
+  const product = await productModel.findOne({ _id: req.body.id });
+  res.json({
+    product,
+  });
+};
+
+const deleteReview = async (req, res) => {
+  const userid = req.user.id;
+  let productid = req.body.productid;
+  console.log(productid);
+  const product = await productModel.findOne({ _id: productid });
+  product.review = product.review.filter((val) => val.userid != userid);
+  await product.save();
+  return res.send("ok");
+};
+
 export {
   uploadProduct,
   GetAllProducts,
@@ -246,4 +285,7 @@ export {
   GetProductById,
   GetOrdersOfuser,
   changeOrderStatus,
+  AddReview,
+  deleteReview,
+  getproductByproductid,
 };

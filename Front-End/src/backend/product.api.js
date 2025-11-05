@@ -137,6 +137,37 @@ class productsApi {
     });
     return response;
   }
+  async AddReview(content, token, productid) {
+    let data = {
+      content,
+      productid,
+    };
+    const response = await api.post("/products/review", data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response;
+  }
+
+  async deleteReview(token, productid) {
+    console.log(token);
+    const response = await api.post(
+      "/products/review/delete",
+      { productid },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
+    return response;
+  }
+
+  async getproductByproductid(id) {
+    const response = await api.post("/products/productByid", { id });
+    return response;
+  }
 }
 
 export const productApi = new productsApi();

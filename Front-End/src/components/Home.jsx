@@ -43,6 +43,7 @@ export default function Home() {
     console.log(response);
   };
 
+  console.log("hello this is testing", products[0]);
   return loading ? (
     <Loader />
   ) : (
@@ -80,10 +81,7 @@ export default function Home() {
             >
               <Link
                 state={{
-                  title: product.title,
-                  description: product.description,
-                  price: product.price,
-                  image: product.image,
+                  product,
                 }}
                 to={`/product/${product._id}`}
                 className="block"

@@ -1,126 +1,122 @@
-import userModel from '../models/user.model.js'
-import  jwt  from 'jsonwebtoken'
-import bcrypt from 'bcryptjs';
-import SendEmail from '../utils/nodemailer.js'
+import userModel from "../models/user.model.js";
+import jwt from "jsonwebtoken";
+import bcrypt from "bcryptjs";
+import SendEmail from "../utils/nodemailer.js";
+import productModel from "../models/product.model.js";
 
-const redirectUserBasedOnRole=(role)=>{
-    if(role==='admin'){
-        return  '/admin'
-    }else if(role=='seller'){
-        return '/SellerDashborad'
-    }else{
-        return '/'
-    }
-}
+const redirectUserBasedOnRole = (role) => {
+  if (role === "admin") {
+    return "/admin";
+  } else if (role == "seller") {
+    return "/SellerDashborad";
+  } else {
+    return "/";
+  }
+};
 
+const registerUser = async (req, res) => {
+  const { username, email, password } = req.body;
 
-const registerUser=async(req,res)=>{
+  if ([username, email, password].some((parameter) => parameter == "")) {
+    return res.status(400).send("All fields are required");
+  }
 
-    const {username,email,password}=req.body
+  const user = await userModel.find({ email }); // return all the user from db in  formate [{},{}] where object representing one user
+  if (user.length > 0) {
+    return res.status(400).send("Email already exists");
+  }
 
-if([username,email,password].some((parameter)=> parameter=="")){
-     return res.status(400).send("All fields are required")
-    
-}
+  const hashedPassword = await bcrypt.hash(password, 2);
 
+  const newUser = await userModel.create({
+    username,
+    email,
+    password: hashedPassword,
+    role: req.role,
+  }); // return created user in object formate {new user data}
 
-const user=await userModel.find({email})  // return all the user from db in  formate [{},{}] where object representing one user
- if(user.length>0){
-   return  res.status(400).send("Email already exists")
-     
-}
-
-const hashedPassword = await bcrypt.hash(password, 2)
-
-const newUser =await userModel.create({username,email,password:hashedPassword,role:req.role})  // return created user in object formate {new user data}
-
-
-return res.
-status(201).json({
+  return res.status(201).json({
     success: true,
-    message: "User registered successfully"
-})
+    message: "User registered successfully",
+  });
+};
 
+const loginUser = async (req, res) => {
+  const { email, password } = req.body;
 
-
-
-
-
-}
-
-
-const loginUser =async(req,res)=>{
-    
-    const {email,password} = req.body;
-    
-    const findUser = await userModel.find({email}).select("username email _id password role cart")
-    if(findUser.length==0){
-      return res.status(400).send("User does not exist")
-    }
-
-   let HashedPassword = findUser['0']['password']
-  const IsMatched  =await bcrypt.compare(password,HashedPassword)  // return compare operation result  in boolen
-
-
-   if(!IsMatched){
-       return   res.status(400).send("Invalid Password")
-
-    }
-    const user = {
-        id:findUser['0']['_id'],
-        email,
-        username:findUser[0].username,
-        role:findUser[0].role
-    }
-
-    const token=jwt.sign(user,process.env.JWT_SECRET_KEY) // 1️⃣ HS256 (Default) – Uses a secret key (HMAC + SHA256).
-
-console.log(token)
-     res.status(200).json({
-        token,
-        cart:findUser[0].cart,
-        redirect:redirectUserBasedOnRole(findUser[0].role)
-    })   // last option is directive  for browser to contorl cookie behaviour
-
-}
-
-const deleteUserById=async(req,res)=>{
-    const {id} = req.query
-    const DeletedCount = await userModel.findByIdAndDelete(id)  // returns how many  Number of  documents is deleted 
-    return res.status(200).json({
-        message:"User Deleted successfully"
-    })
-
-}
-
-
-const UserDetailsById=async(req,res)=>{
-    console.log(req.user)
-    const user = await userModel.findById(req.user.id) 
-    res.json({
-        cart:user.cart
-    })   
-}
-
-const ForgotPassword=async(req,res)=>{
-    const {email} = req.body
-  const exist  = await userModel.findOne({email})
-  if(!exist){
-   return  res.json({
-        message:'email not exist in our records'
-    })
-  }
-  let payload={
- email:exist.email,
+  const findUser = await userModel
+    .find({ email })
+    .select("username email _id password role cart");
+  if (findUser.length == 0) {
+    return res.status(400).send("User does not exist");
   }
 
- const resetToken= jwt.sign(payload,process.env.JWT_SECRET_KEY, { expiresIn: "10m" })
+  let HashedPassword = findUser["0"]["password"];
+  const IsMatched = await bcrypt.compare(password, HashedPassword); // return compare operation result  in boolen
 
+  if (!IsMatched) {
+    return res.status(400).send("Invalid Password");
+  }
+  const user = {
+    id: findUser["0"]["_id"],
+    email,
+    username: findUser[0].username,
+    role: findUser[0].role,
+  };
 
- const mailOptions = {
+  const token = jwt.sign(user, process.env.JWT_SECRET_KEY); // 1️⃣ HS256 (Default) – Uses a secret key (HMAC + SHA256).
+
+  console.log(token);
+  res.status(200).json({
+    token,
+    cart: findUser[0].cart,
+    redirect: redirectUserBasedOnRole(findUser[0].role),
+  }); // last option is directive  for browser to contorl cookie behaviour
+};
+
+const deleteUserById = async (req, res) => {
+  if (req.user.role != "admin") {
+    return res.json({
+      error: "Invalid operation",
+    });
+  }
+  const { id } = req.query;
+  const ret = await productModel.deleteMany({ sellerId: id });
+  const DeletedCount = await userModel.findByIdAndDelete(id); // returns how many  Number of  documents is deleted
+  return res.status(200).json({
+    message: "User Deleted successfully",
+  });
+};
+
+const UserDetailsById = async (req, res) => {
+  console.log(req.user);
+  const user = await userModel.findById(req.user.id);
+  res.json({
+    cart: user.cart,
+  });
+};
+
+const ForgotPassword = async (req, res) => {
+  const { email } = req.body;
+  console.log(email.trim());
+  const exist = await userModel.findOne({ email });
+  if (!exist) {
+    return res.json({
+      message: "email not exist in our records",
+    });
+  }
+  let payload = {
+    email: exist.email,
+  };
+
+  const resetToken = jwt.sign(payload, process.env.JWT_SECRET_KEY, {
+    expiresIn: "10m",
+  });
+
+  const mailOptions = {
     from: process.env.EMAIL_USER,
     to: email.toString(),
-    subject: 'Reset Your Password',
+    subject: "Reset Your Password",
     html: `<!DOCTYPE html>
 <html>
 <head>
@@ -153,83 +149,82 @@ const ForgotPassword=async(req,res)=>{
 <body>
     <div class="container">
         <h2>Password Reset Request</h2>
-        <p>Hello <b>${email.toString().slice(0,email.toString().indexOf('@'))}</b></p>
+        <p>Hello <b>${email.toString().slice(0, email.toString().indexOf("@"))}</b></p>
         <p>We received a request to reset your password. Click the button below to proceed:</p>
-        <a href="${process.env.FRONTEND_URI}reset-password?resetToken=${resetToken}" class="button">Reset Password</a>
+        <a href="${process.env.FRONTEND_URL}/reset-password?resetToken=${resetToken}" class="button">Reset Password</a>
         <p>If you did not request this, please ignore this email. This link will expire in <b>10 min</b>.</p>
         <p class="footer">For security reasons, do not share this link with anyone.</p>
         <p class="footer">Best Regards, <br>MyShop</p>
     </div>
 </body>
 </html>
-`
+`,
   };
 
- const response =await  SendEmail(mailOptions)
-console.log(response)
- return res.json({
-        message:'check your email for password reset link'
-    
-    })
-}
+  const response = await SendEmail(mailOptions);
+  console.log(response);
+  return res.json({
+    message: "check your email for password reset link",
+  });
+};
 
-const ResetPassword=async(req,res)=>{
-const {password,resetToken} = req.body
-console.log(req.body)
-try{
-const {email} =await jwt.verify(resetToken, process.env.JWT_SECRET_KEY)
-const user = await userModel.findOne({email})
-const hashedPassword = await bcrypt.hash(password, 2)
-user.password=hashedPassword
-await user.save();
-return  res.json({message: 'Password reset successfully.login using new password'})
-}catch(err){
+const ResetPassword = async (req, res) => {
+  const { password, resetToken } = req.body;
+  console.log(req.body);
+  try {
+    const { email } = await jwt.verify(resetToken, process.env.JWT_SECRET_KEY);
+    const user = await userModel.findOne({ email });
+    const hashedPassword = await bcrypt.hash(password, 2);
+    user.password = hashedPassword;
+    await user.save();
     return res.json({
-        message:'token is not valid.try again with new token '
-    })
-}
-}
+      message: "Password reset successfully.login using new password",
+    });
+  } catch (err) {
+    return res.json({
+      message: "token is not valid.try again with new token ",
+    });
+  }
+};
 
-const GetAllUser =async(req,res)=>{
-    if (req.user.role !== 'admin') {
-        return res.status(403).json({ message: "Access denied. Admins only." });
-    }
-    
+const GetAllUser = async (req, res) => {
+  if (req.user.role !== "admin") {
+    return res.status(403).json({ message: "Access denied. Admins only." });
+  }
 
-  const user = await  userModel.find()
-res.status(200).json({
-    users:user,
-})
-}
+  const response = await userModel.find();
+  const user = response.filter((val) => val.role != "admin");
+  res.status(200).json({
+    users: user,
+  });
+};
 
+const SaveChangesByAdmin = async (req, res) => {
+  if (req.user.role != "admin") {
+    res.json({
+      error: "invalid operation",
+    });
+  }
 
-
-const SaveChangesByAdmin = async(req,res)=>{
-    const {id}= req.query
-    console.log(req.body)
-    const {username,email,role}=req.body
-    const user = await userModel.findById(id)
-    user.username=username
-    user.email=email
-    user.role=role
-    await user.save()
-   return  res.status(200).json({
-    message: 'Changes saved successfully',
-   })
-}
-
+  const { id } = req.query;
+  const { username, email, role } = req.body;
+  const user = await userModel.findById(id);
+  user.username = username;
+  user.email = email;
+  user.role = role;
+  await user.save();
+  return res.status(200).json({
+    message: "Changes saved successfully",
+  });
+};
 
 export {
-    registerUser,
-    loginUser,
-    UserDetailsById,
-    ResetPassword,
-    ForgotPassword,
-    GetAllUser,
-    deleteUserById,
-    SaveChangesByAdmin
-}
-
-
-
-
+  registerUser,
+  loginUser,
+  UserDetailsById,
+  ResetPassword,
+  ForgotPassword,
+  GetAllUser,
+  deleteUserById,
+  SaveChangesByAdmin,
+};

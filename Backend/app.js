@@ -13,10 +13,6 @@ app.use(
   }),
 );
 
-app.get("/hello", (req, res) => {
-  res.send("worker find");
-});
-
 app.use("/api/v1/payment", paymentRouter);
 
 app.use(express.json());

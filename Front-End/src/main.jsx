@@ -24,6 +24,8 @@ import {
   MyProducts,
   OutOfStockProducts,
   Orders,
+  Reviews,
+  SellerAuth,
 } from "./components/SellerComponents/Seller.export.js";
 import {
   AdminDashboard,
@@ -31,6 +33,7 @@ import {
   Users,
   Products,
   ManageUsers,
+  AdminAuth,
 } from "./components/AdminComponents/admin.export.js";
 import {
   UserProfile,
@@ -71,49 +74,101 @@ const route = createBrowserRouter([
       },
       {
         path: "/SellerDashborad",
-        element: <SellerApp />,
+        element: (
+          <SellerAuth>
+            <SellerApp />
+          </SellerAuth>
+        ),
         children: [
           {
             path: "/SellerDashborad",
-            element: <SellerBashborad />,
+            element: (
+              <SellerAuth>
+                <MyProducts />
+              </SellerAuth>
+            ),
+          },
+          {
+            path: "/SellerDashborad/reviews",
+            element: (
+              <SellerAuth>
+                <Reviews />
+              </SellerAuth>
+            ),
           },
           {
             path: "/SellerDashborad/Add-product",
-            element: <AddProducts />,
+            element: (
+              <SellerAuth>
+                <AddProducts />
+              </SellerAuth>
+            ),
           },
           {
             path: "/SellerDashborad/products",
-            element: <MyProducts />,
+            element: (
+              <SellerAuth>
+                <MyProducts />,
+              </SellerAuth>
+            ),
           },
           {
             path: "/SellerDashborad/out-of-stock",
-            element: <OutOfStockProducts />,
+            element: (
+              <SellerAuth>
+                <OutOfStockProducts />
+              </SellerAuth>
+            ),
           },
           {
             path: "/SellerDashborad/Orders",
-            element: <Orders />,
+            element: (
+              <SellerAuth>
+                <Orders />,
+              </SellerAuth>
+            ),
           },
         ],
       },
       {
         path: "/admin",
-        element: <AdminApp />,
+        element: (
+          <AdminAuth>
+            <AdminApp />
+          </AdminAuth>
+        ),
         children: [
           {
             path: "/admin",
-            element: <AdminDashboard />,
+            element: (
+              <AdminAuth>
+                <Users />
+              </AdminAuth>
+            ),
           },
           {
             path: "/admin/Users",
-            element: <Users />,
+            element: (
+              <AdminAuth>
+                <Users />
+              </AdminAuth>
+            ),
           },
           {
             path: "/admin/Products",
-            element: <Products />,
+            element: (
+              <AdminAuth>
+                <Products />
+              </AdminAuth>
+            ),
           },
           {
             path: "/admin/manage/users",
-            element: <ManageUsers />,
+            element: (
+              <AdminAuth>
+                <ManageUsers />
+              </AdminAuth>
+            ),
           },
         ],
       },

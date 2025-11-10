@@ -78,96 +78,92 @@ function CartPage() {
     const stripeResponse = await stripe.redirectToCheckout({
       sessionId: response.data.session.id,
     });
-
-    console.log(stripeResponse);
   };
 
   if (cart.length) {
     return (
       <div className="max-w-3xl mx-auto p-6 bg-gray-100 min-h-screen">
-        <h2 className="text-2xl font-semibold mb-4 text-green-600">
+        <h2 className="text-2xl font-semibold mb-6 text-orange-950 text-center">
           Shopping Cart
         </h2>
-        <div className="cart-items space-y-4">
-          {cart.map((val) => {
-            return (
-              <div
-                key={val._id}
-                className="flex justify-between items-center bg-white p-4 shadow rounded-lg"
-              >
-                <div className="flex items-center gap-6">
-                  <span className="text-lg font-semibold text-gray-800">
-                    {val.title.length > 11
-                      ? val.title.slice(0, 11) + "..."
-                      : val.title}
-                  </span>
-                  <span className="text-blue-600 font-semibold">
-                    ₨.{val.price}
-                  </span>
 
-                  {/* 🛒 Stock Display (Styled) */}
-                  <span className="text-xs px-2 py-1 bg-gray-200 text-gray-700 rounded-full">
-                    Stock: {val.stock}
-                  </span>
+        <div className="space-y-4">
+          {cart.map((val) => (
+            <div
+              key={val._id}
+              className="flex flex-col sm:flex-row justify-between items-center bg-white p-4 shadow rounded-lg gap-4"
+            >
+              {/* Product Info */}
+              <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto flex-wrap">
+                <span className="text-lg font-semibold text-orange-950">
+                  {val.title.length > 11
+                    ? val.title.slice(0, 11) + "..."
+                    : val.title}
+                </span>
+                <span className="text-orange-600 font-semibold">
+                  ₨.{val.price}
+                </span>
+                <span className="text-xs px-2 py-1 bg-gray-200 text-gray-700 rounded-full">
+                  Stock: {val.stock}
+                </span>
 
-                  <div className="flex items-center bg-gray-200 p-1 rounded-lg shadow">
-                    <button
-                      onClick={() => Decrease(val)}
-                      className="px-3 py-1 text-lg text-gray-700 bg-yellow-500 hover:bg-yellow-600 rounded-l"
-                    >
-                      -
-                    </button>
-                    <span className="mx-3 font-semibold text-gray-900">
-                      {cartDetails.map((data) => {
-                        if (data.product === val._id) {
-                          return data.quantity;
-                        }
-                        return null;
-                      })}
-                    </span>
-                    <button
-                      onClick={() => increasecart(val)}
-                      disabled={val.quantity >= val.stock ? true : false}
-                      className={`px-3 py-1 text-lg text-gray-700 bg-yellow-500 hover:bg-yellow-600 rounded-r ${
-                        val.quantity >= val.stock
-                          ? "opacity-50 cursor-not-allowed"
-                          : ""
-                      }`}
-                    >
-                      +
-                    </button>
-                  </div>
+                {/* Quantity Controls */}
+                <div className="flex items-center bg-gray-200 p-1 rounded-lg shadow">
+                  <button
+                    onClick={() => Decrease(val)}
+                    className="px-3 py-1 text-orange-950 bg-orange-200 hover:bg-orange-300 rounded-l font-semibold"
+                  >
+                    -
+                  </button>
+                  <span className="mx-3 font-semibold text-orange-950">
+                    {cartDetails.map((data) =>
+                      data.product === val._id ? data.quantity : null,
+                    )}
+                  </span>
+                  <button
+                    onClick={() => increasecart(val)}
+                    disabled={val.quantity >= val.stock}
+                    className={`px-3 py-1 text-orange-950 bg-orange-200 hover:bg-orange-300 rounded-r font-semibold ${
+                      val.quantity >= val.stock
+                        ? "opacity-50 cursor-not-allowed"
+                        : ""
+                    }`}
+                  >
+                    +
+                  </button>
                 </div>
-                <button
-                  onClick={() => remove(val)}
-                  className="text-white bg-red-500 hover:bg-red-700 px-4 py-2 rounded-lg transition duration-300"
-                >
-                  Remove
-                </button>
               </div>
-            );
-          })}
+
+              {/* Remove Button */}
+              <button
+                onClick={() => remove(val)}
+                className="mt-2 sm:mt-0 bg-orange-950 text-white px-4 py-2 rounded-lg hover:bg-orange-800 transition duration-300"
+              >
+                Remove
+              </button>
+            </div>
+          ))}
         </div>
 
-        {/* Total Amount Section */}
-        <div className="mt-6 p-4 bg-white shadow rounded-lg flex justify-between items-center">
-          <span className="text-xl font-bold text-gray-800">Total:</span>
-          <span className="text-2xl font-semibold text-blue-600">
+        {/* Total Amount */}
+        <div className="mt-6 p-4 bg-white shadow rounded-lg flex flex-col sm:flex-row justify-between items-center">
+          <span className="text-xl font-bold text-orange-950">Total:</span>
+          <span className="text-2xl font-semibold text-orange-600 mt-2 sm:mt-0">
             ₨.{total}
           </span>
         </div>
 
-        {/* Buttons */}
-        <div className="flex gap-4 mt-6">
+        {/* Action Buttons */}
+        <div className="flex flex-col sm:flex-row gap-4 mt-6">
           <button
             onClick={paymentProcess}
-            className="w-full bg-blue-600 text-white py-2 rounded-lg shadow hover:bg-black transition duration-300"
+            className="w-full sm:w-auto bg-orange-950 text-white py-2 rounded-lg hover:bg-orange-800 transition duration-300 flex-1"
           >
             Checkout
           </button>
           <button
             onClick={EmptyCart}
-            className="w-full bg-red-500 text-white py-2 rounded-lg shadow hover:bg-red-700 transition duration-300"
+            className="w-full sm:w-auto bg-red-500 text-white py-2 rounded-lg hover:bg-red-600 transition duration-300 flex-1"
           >
             Clear Cart
           </button>
@@ -177,13 +173,13 @@ function CartPage() {
   } else {
     return (
       <div className="flex flex-col items-center justify-center min-h-[50vh] bg-gray-100 p-6 rounded-lg shadow">
-        <h2 className="text-2xl font-semibold text-green-600">
+        <h2 className="text-2xl font-semibold text-orange-950">
           Your Cart is Empty
         </h2>
         <p className="text-gray-700 mt-2">
           Looks like you haven't added anything yet.
         </p>
-        <button className="mt-4 px-6 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-black transition duration-300">
+        <button className="mt-4 px-6 py-2 bg-orange-950 text-white rounded-lg shadow hover:bg-orange-800 transition duration-300">
           Continue Shopping
         </button>
       </div>

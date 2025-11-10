@@ -65,82 +65,82 @@ function NavBar() {
   };
 
   return (
-    <nav className="bg-blue-800 text-white p-4">
-      <div className="container mx-auto flex justify-between items-center">
-        <h1 className="text-2xl font-bold">MyShop</h1>
-        <ul className=" space-x-2 items-center hidden md:flex">
-          {navbar.map((item) => (
-            <li key={item.navItem}>
-              {item.Auth && (
-                <Link to={item.path} className="cursor-pointer">
+    <nav className="bg-white shadow-md font-serif sticky top-0 z-50 w-full">
+      <div className="container mx-auto flex justify-between items-center px-4 md:px-12 h-16">
+        {/* Logo */}
+        <h1 className="text-2xl font-bold text-orange-950">MyShop</h1>
+
+        {/* Desktop Menu */}
+        <ul className="hidden md:flex space-x-6 items-center text-black font-medium">
+          {navbar.map((item) =>
+            item.Auth ? (
+              <li key={item.navItem}>
+                <Link
+                  to={item.path}
+                  className="hover:text-orange-600 transition-colors duration-300"
+                >
                   {item.navItem}
                 </Link>
-              )}
-            </li>
-          ))}
-
-          {/* {Auth && ( 
-  <li>
-    <button 
-    className="cursor-pointer bg-blue-500 px-4 py-2 rounded-md transition-all duration-300 hover:bg-blue-600">
- <FontAwesomeIcon icon={faCartShopping}  className='text-2xl' />   
-        <p className='inline-block text-black font-bold pl-1 '>{data}</p>
-  </button>
-  </li>
-)} */}
+              </li>
+            ) : null,
+          )}
         </ul>
 
+        {/* Auth Buttons */}
         {Auth && (
-          <li className="flex items-center space-x-1 mr-10 ">
+          <div className="hidden md:flex items-center space-x-4">
             <button
               onClick={logoutHandler}
-              className="cursor-pointer bg-red-500 px-3 mx-2 py-2 rounded-md transition-all  h-11 duration-300 hover:bg-red-600"
+              className="bg-orange-950 text-white px-4 py-2 rounded-md hover:bg-red-600 transition duration-300"
             >
               Logout
             </button>
-            <button className="cursor-pointer bg-blue-500 px-4 py-2 rounded-md transition-all duration-300  hover:bg-blue-600">
-              <FontAwesomeIcon icon={faCartShopping} className="text-2xl" />
-              <p className="inline-block text-black font-bold pl-1 ">{data}</p>
+            <button className="relative bg-orange-950 text-white px-4 py-2 rounded-md hover:bg-black transition duration-300">
+              <FontAwesomeIcon icon={faCartShopping} />
+              <span className="absolute -top-2 -right-2 bg-red-600 text-xs font-bold text-white rounded-full px-2">
+                {data}
+              </span>
             </button>
-
             <Link
               to="/user"
-              className="cursor-pointer bg-blue-500 px-4 py-2 rounded-lg transition-all duration-300  hover:bg-blue-600"
+              className="bg-orange-950 text-white px-4 py-2 rounded-md hover:bg-black transition duration-300"
             >
-              <FontAwesomeIcon icon={faUser} className="text-2xl" />
+              <FontAwesomeIcon icon={faUser} />
             </Link>
-          </li>
+          </div>
         )}
-        {/* Mobile Menu Toggle Icon - Always Visible */}
-        <div className="fixed top-4 right-4 z-50 md:hidden">
+
+        {/* Mobile Toggle */}
+        <div className="md:hidden">
           <FontAwesomeIcon
             icon={clicked}
-            className="text-2xl cursor-pointer text-white"
+            className="text-2xl cursor-pointer text-orange-950"
             onClick={changeicon}
           />
         </div>
+      </div>
 
-        {/* Mobile Menu - Appears on Click */}
-        <div className={`${display} inset-0 fixed bg-blue-700 md:hidden z-40`}>
-          <h1 className="text-2xl font-bold">MyShop</h1>
-          <div>
-            {navbar.map((item) => (
-              <li key={item.navItem} className="flex items-start">
-                {item.Auth && (
+      {/* Mobile Menu */}
+      <div
+        className={`${display} fixed inset-0 bg-orange-950 z-40 px-6 py-10 md:hidden flex flex-col`}
+      >
+        <h1 className="text-2xl font-bold text-white mb-6">MyShop</h1>
+        <ul className="flex flex-col space-y-4">
+          {navbar.map(
+            (item) =>
+              item.Auth && (
+                <li key={item.navItem}>
                   <Link
                     to={item.path}
-                    onClick={() => {
-                      changeicon();
-                    }}
-                    className="cursor-pointer bg-black rounded-2xl pl-5 text-1xl w-full mt-2"
+                    onClick={changeicon}
+                    className="block text-white bg-black rounded-lg px-4 py-2 hover:bg-orange-600 transition duration-300"
                   >
                     {item.navItem}
                   </Link>
-                )}
-              </li>
-            ))}
-          </div>
-        </div>
+                </li>
+              ),
+          )}
+        </ul>
       </div>
     </nav>
   );

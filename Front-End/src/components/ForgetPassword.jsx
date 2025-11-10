@@ -1,52 +1,55 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import userAuth from "../backend/users.Api";
-import { useForm } from 'react-hook-form';
+import { useForm } from "react-hook-form";
 
 function ForgetPassword() {
-  const [message, setMessage] = useState('');
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const [message, setMessage] = useState("");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
   const onSubmit = (data) => {
-    console.log("Reset email submitted", data.email);
-    userAuth.ForgotPassword(data)
-      .then((response) => {
-        setMessage(response.data.message);
-      })
-      
+    userAuth.ForgotPassword(data).then((response) => {
+      setMessage(response.data.message);
+    });
   };
 
-  return  !message ?(
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="bg-blue-800 p-6 rounded-2xl shadow-lg w-96">
-        <h2 className="text-2xl font-semibold text-center text-white mb-4">
+  return !message ? (
+    <div className="flex items-center justify-center min-h-screen bg-gray-100 px-4">
+      <div className="bg-orange-950 p-8 md:p-10 rounded-3xl shadow-xl w-full max-w-md">
+        <h2 className="text-3xl md:text-4xl font-bold text-center text-white mb-6">
           Reset Password
         </h2>
-        
-        <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
-          <div>
-            <label className="block text-white font-medium">Email</label>
+
+        <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
+          <div className="flex flex-col">
+            <label className="text-white font-medium mb-1">Email</label>
             <input
               type="email"
               {...register("email", { required: "Email is required" })}
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500"
               placeholder="Enter your email"
+              className="w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-yellow-500 transition"
             />
             {errors.email && (
-              <p className="text-red-500 text-sm">{errors.email.message}</p>
+              <p className="text-red-400 text-sm mt-1">
+                {errors.email.message}
+              </p>
             )}
           </div>
+
           <button
             type="submit"
-            className="w-full bg-yellow-500 text-white py-2 rounded-lg hover:bg-yellow-600 transition"
+            className="w-full bg-yellow-500 text-white py-3 rounded-xl hover:bg-yellow-600 transition font-semibold"
           >
             Submit
           </button>
         </form>
       </div>
     </div>
-  ):(
-    <p className="text-back text-center mb-4">{message}</p>
-
-  )
+  ) : (
+    <p className="text-black text-center mt-10 text-lg">{message}</p>
+  );
 }
 
 export default ForgetPassword;

@@ -30,7 +30,7 @@ productRouter.post("/cart/clear", auth, ClearCart);
 productRouter.post("/cart/decrease", auth, decrease);
 productRouter.post("/cart/remove", auth, removeItem);
 productRouter.post("/seller/product", auth, SellerSpecficProducts);
-productRouter.delete("/seller/delete/product", DeleteProduct);
+productRouter.delete("/seller/delete/product", auth, DeleteProduct);
 productRouter.post("/seller/outofstock", auth, OutOfStockProducts);
 productRouter.post("/seller/orders", auth, GetOrderOfSeller);
 productRouter.post("/user/product", GetProductById);

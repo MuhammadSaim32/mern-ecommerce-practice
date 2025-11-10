@@ -2,8 +2,6 @@ import api from "./axios.api";
 
 class productsApi {
   async uploadProduct(formData, token, id) {
-    console.log(id);
-
     const response = await api.post(
       `/products/upload?id=${id}`,
       formData,
@@ -88,8 +86,12 @@ class productsApi {
     return resposne;
   }
 
-  async DeleteProduct(_id) {
-    const res = await api.delete(`/products/seller/delete/product?id=${_id}`);
+  async DeleteProduct(_id, token) {
+    const res = await api.delete(`/products/seller/delete/product?id=${_id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return res;
   }
 
@@ -151,7 +153,6 @@ class productsApi {
   }
 
   async deleteReview(token, productid) {
-    console.log(token);
     const response = await api.post(
       "/products/review/delete",
       { productid },

@@ -5,6 +5,8 @@ import SellerApp from "./SellerApp";
 import MyProducts from "./MyProducts";
 import OutOfStockProducts from "./OutOfStockProudcts";
 import Orders from "./Orders.jsx";
+import Reviews from "./Reviews.jsx";
+import SellerAuth from "./SellerAuth.jsx";
 export {
   SellerNavbar,
   AddProducts,
@@ -13,5 +15,6 @@ export {
   MyProducts,
   OutOfStockProducts,
   Orders,
+  Reviews,
+  SellerAuth,
 };
-

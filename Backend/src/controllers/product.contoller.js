@@ -11,6 +11,10 @@ const uploadProduct = async (req, res) => {
     if ([title, description, price, stock].some((val) => val == "")) {
       return res.status(400).send("All Fields are required");
     }
+
+    if (stock == 0) {
+      return res.status(400).json({ error: "invalid value in stock" });
+    }
     if (!req.file) {
       return res.status(400).json({ error: "No file uploaded!" });
     }
@@ -157,12 +161,20 @@ const SellerSpecficProducts = async (req, res) => {
 };
 
 const DeleteProduct = async (req, res) => {
-  console.log(req.query);
   const { id } = req.query;
-  await productModel.findByIdAndDelete(id);
-  return res.json({
-    message: "product Deleted Successfully",
-  });
+
+  const product = await productModel.findOne({ _id: id });
+  if (product.sellerId.toString() == req.user.id) {
+    await productModel.findByIdAndDelete(id);
+
+    return res.json({
+      message: "product Deleted Successfully",
+    });
+  } else {
+    return res.json({
+      message: "unAuthorize Request",
+    });
+  }
 };
 
 const OutOfStockProducts = async (req, res) => {

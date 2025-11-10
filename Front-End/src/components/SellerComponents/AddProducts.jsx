@@ -35,7 +35,6 @@ export default function AddProducts() {
     formData.append("price", data.price);
     formData.append("stock", data.stock);
     const id = decodedToken.id ? decodedToken.id : "";
-    console.log("helo", id);
     const response = await productApi
       .uploadProduct(formData, token, id)
       .then(() => {
@@ -48,12 +47,13 @@ export default function AddProducts() {
 
   return (
     <div className="min-h-screen bg-gray-100 py-12 px-4">
-      <div className="max-w-lg mx-auto bg-white p-8 rounded-xl shadow-md">
-        <h2 className="text-2xl font-bold text-center mb-6">
+      <div className="max-w-lg mx-auto bg-white p-8 rounded-2xl shadow-lg">
+        <h2 className="text-2xl md:text-3xl font-bold text-center mb-6 text-orange-950">
           Seller Dashboard
         </h2>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="mb-4">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+          {/* Product Image */}
+          <div>
             <label
               className="block text-gray-700 font-semibold mb-2"
               htmlFor="image"
@@ -64,7 +64,7 @@ export default function AddProducts() {
               type="file"
               id="products"
               {...register("product", { required: true })}
-              className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
+              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-950"
             />
             {errors.image && (
               <p className="text-red-500 text-sm mt-1">
@@ -72,7 +72,9 @@ export default function AddProducts() {
               </p>
             )}
           </div>
-          <div className="mb-4">
+
+          {/* Title */}
+          <div>
             <label
               className="block text-gray-700 font-semibold mb-2"
               htmlFor="title"
@@ -88,13 +90,17 @@ export default function AddProducts() {
                 maxLength: 60,
                 required: true,
               })}
-              className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
+              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-950"
             />
             {errors.title && (
-              <p className="text-red-500 text-sm mt-1">Title is required</p>
+              <p className="text-red-500 text-sm mt-1">
+                Title is required of Max : 60 or min : 30
+              </p>
             )}
           </div>
-          <div className="mb-4">
+
+          {/* Description */}
+          <div>
             <label
               className="block text-gray-700 font-semibold mb-2"
               htmlFor="description"
@@ -110,15 +116,17 @@ export default function AddProducts() {
                 maxLength: 300,
                 required: true,
               })}
-              className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
+              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-950"
             ></textarea>
             {errors.description && (
               <p className="text-red-500 text-sm mt-1">
-                Description is required
+                Description is required of min length 150 or max :300
               </p>
             )}
           </div>
-          <div className="mb-6">
+
+          {/* Price */}
+          <div>
             <label
               className="block text-gray-700 font-semibold mb-2"
               htmlFor="price"
@@ -130,13 +138,15 @@ export default function AddProducts() {
               id="price"
               placeholder="Enter product price"
               {...register("price", { required: true, valueAsNumber: true })}
-              className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
+              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-950"
             />
             {errors.price && (
               <p className="text-red-500 text-sm mt-1">Price is required</p>
             )}
           </div>
-          <div className="mb-6">
+
+          {/* Stock */}
+          <div>
             <label
               className="block text-gray-700 font-semibold mb-2"
               htmlFor="stock"
@@ -148,15 +158,17 @@ export default function AddProducts() {
               id="stock"
               placeholder="Enter product stock quantity"
               {...register("stock", { required: true, valueAsNumber: true })}
-              className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
+              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-950"
             />
             {errors.stock && (
               <p className="text-red-500 text-sm mt-1">Stock is required</p>
             )}
           </div>
+
+          {/* Submit Button */}
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white py-2 rounded-md hover:cursor-pointer transition duration-300"
+            className="w-full bg-orange-950 hover:bg-black text-white py-2 rounded-xl font-semibold transition duration-300"
           >
             Upload Product
           </button>

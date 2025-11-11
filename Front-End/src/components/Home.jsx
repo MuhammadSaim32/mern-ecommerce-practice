@@ -32,8 +32,10 @@ export default function Home() {
 
   gsap.registerPlugin(ScrollTrigger);
   useLayoutEffect(() => {
+    gsap.set(".shop", { xPercent: 15 });
+
     gsap.to(".shop", {
-      xPercent: -70,
+      xPercent: -20,
       duration: 2,
       scrollTrigger: {
         trigger: ".p",
@@ -65,9 +67,6 @@ export default function Home() {
     <Loader />
   ) : (
     <div className="min-h-screen overflow-x-hidden bg-white text-orange-950 font-serif">
-      {/* Cursor */}
-      <div className="bg-gray-400 h-[25px] w-[25px] rounded-full fixed cur"></div>
-
       {/* Hero Section */}
 
       <header className="flex flex-col md:flex-row h-[80vh] w-full px-6 py-4 gap-3">
@@ -213,12 +212,12 @@ export default function Home() {
         </div>
 
         {/* Scroll Section */}
-        <div className="p bg-orange-950 mt-20 w-full flex justify-center items-center overflow-hidden">
-          <h1 className="text-[25vh] md:text-[40vh] text-white font-extrabold tracking-widest shop leading-none text-nowrap">
-            SHOP NOW
-          </h1>
-        </div>
       </section>
+      <div className="p bg-orange-950 mt-20 w-[100vw] flex justify-center items-center overflow-hidden">
+        <h1 className="text-[25vh] md:text-[40vh] text-white font-extrabold shop  text-nowrap">
+          SHOP NOW
+        </h1>
+      </div>
     </div>
   );
 }

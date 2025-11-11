@@ -1,76 +1,91 @@
 # 🛒 MERN Stack eCommerce App
 
-This is a **MERN stack-based eCommerce web application** developed for learning purposes. It supports **multiple user roles** — user, seller, and admin — and includes  authentication, product management, and payment processing functionality.
+This is a **MERN stack-based eCommerce web application** developed for learning purposes. It supports **multiple user roles** — user, seller, and admin — and includes authentication, product management, product reviews, and an order management system.
 
 ---
 
 ## 🚀 Tech Stack
 
 ### 🔹 Frontend:
-- **React JS**
+- **React JS**  
 - **Redux Toolkit** – State management  
-- **Redux Persist** – State persistence across page reloads  
-- **React Router DOM** – Routing between pages  
-- **React Hook Form** – Form management and validation  
+- **Redux Persist** – State persistence  
+- **React Router DOM** – Routing  
+- **React Hook Form** – Form validation  
 - **Axios** – API communication  
-- **Stripe JS** – Stripe integration
+- **Stripe JS** – Payment integration  
 - **Tailwind CSS** – Basic styling  
-- **jwt-decode** – Decode JWT tokens on the frontend  
-- **AI Tools like ChatGPT** – Used for markup/layout 
+- **jwt-decode** – Decode JWT tokens  
+- **AI Tools (ChatGPT)** – Used for layout design and markup   
+
+**🟢 Deployed on:** [Vercel](https://vercel.com)
+
+---
 
 ### 🔹 Backend:
-- **Node.js** (JavaScript runtime)
-- **Express.js** (Web framework)
-- **MongoDB Atlas** – Cloud database
-- **Mongoose** – ODM for MongoDB
-- **JWT** – Token-based authentication and role-based access control
-- **Bcrypt** – Password hashing
-- **Cloudinary** – Product image storage
-- **Multer** – File upload handling
-- **NodeMailer** – Password reset functionality
-- **dotenv** – Environment variable management
+- **Node.js** – Runtime environment  
+- **Express.js** – Web framework  
+- **MongoDB Atlas** – Cloud database  
+- **Mongoose** – ODM for MongoDB  
+- **JWT** – Token-based authentication and role-based access  
+- **Bcrypt** – Password hashing  
+- **Cloudinary** – Product image storage  
+- **Multer** – File upload handling  
+- **NodeMailer** – Password reset functionality  
+- **dotenv** – Environment variable management  
+
+**🟢 Deployed on:** [Railway](https://railway.app)
 
 ---
 
 ## 🔐 Roles & Permissions
 
-- **User**
-  - Register / Login / Logout
-  - Reset password
-  - Add items to cart
-  - Checkout using Stripe
+### 👤 User
+- Register / Login / Logout  
+- Reset password  
+- Add items to cart  
+- Checkout using Stripe  
+- Leave, edit, or delete product reviews  
 
-- **Seller**
-  - Register seller account
-  - Upload products
-  - Edit/delete their own products
+### 🏪 Seller
+- Register as seller  
+- Upload and manage products  
+- Edit or delete own products  
+- Manage orders — manually update order status (*Pending*, *processing*, *Delivered*)  
 
-- **Admin**
-  - View all users
-  - Change user roles
-  - Delete any user
+### 👮 Admin
+- View all users  
+- Change user roles  
+- Delete any user  
 
 ---
 
 ## ✅ Features
 
-- 🔑 User authentication and password reset  
-- 🛒 Shopping cart functionality  
-- 🧾 Stripe payment integration  
+- 🔑 JWT-based authentication and authorization  
+- 📧 Password reset with NodeMailer  
+- 🛒 Shopping cart and Stripe checkout  
+- 🧾 Order management system (seller updates order status manually)  
+- 💬 Review system – users can post, edit, and delete reviews like comments  
 - 🖼️ Image upload via Cloudinary  
-- 🔧 Seller product management  
-- 👮 Admin user management
+- 👮 Admin dashboard for user and role management  
+- ⚙️ Modular backend with controllers, middleware, and routes  
 
 ---
 
 ## ⚠️ Notes
 
-> 🎨 This project was focused entirely on backend logic, authentication, and role-based systems. I did **not focus on design, responsiveness, or layout polish** ...
+> 🎨 This project focuses mainly on **backend logic**, authentication, and system architecture.  
+> The **frontend layout and markup** were created using **AI tools (ChatGPT)**.  
+> No extra design libraries were used beyond Tailwind CSS.
 
 ---
 
 ## 📽️ Demo
 
-[*(video)*](https://www.linkedin.com/feed/update/urn:li:activity:7327070193967382530/)
+[*(Watch demo video)*](https://www.linkedin.com/feed/update/urn:li:activity:7327070193967382530/)
 
+**🌐 Live Link:**
+https://mern-ecommerce-practice.vercel.app/
 ---
+

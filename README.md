@@ -52,7 +52,7 @@ This is a **MERN stack-based eCommerce web application** developed for learning 
 - Register as seller  
 - Upload and manage products  
 - Edit or delete own products  
-- Manage orders — manually update order status (*Pending*, *Processing*, *Delivered*)  
+- Manage orders — manually update order status (*Pending*, *Processing*, *Completed*)  
 
 ### 🟢 Admin
 - View all users  
@@ -87,7 +87,7 @@ This is a **MERN stack-based eCommerce web application** developed for learning 
 ## ⚠️ Notes
 
 > 🎨 This project focuses mainly on **backend logic**, authentication, and system architecture.  
-> The **frontend layout and markup** were created using **AI tools (ChatGPT)**.  
+> The **frontend layout and markup design** were created using **AI tools (ChatGPT)**.  
 
 ---
 

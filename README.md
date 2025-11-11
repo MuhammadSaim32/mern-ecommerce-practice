@@ -93,7 +93,8 @@ This is a **MERN stack-based eCommerce web application** developed for learning 
 
 ## 📽️ Demo
 
-[*(Watch demo video)*](https://www.linkedin.com/feed/update/urn:li:activity:7327070193967382530/)
+[*(Old video)*](https://www.linkedin.com/feed/update/urn:li:activity:7327070193967382530/)
+[*(New video)*](https://www.linkedin.com/feed/update/urn:li:activity:7393951696332345344/)
 
 **🌐 Live Link:**  
 https://mern-ecommerce-practice.vercel.app/

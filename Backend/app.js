@@ -8,7 +8,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: `https://mern-ecommerce-practice.vercel.app/`, // Allow frontend URL
+    origin: `https://mern-ecommerce-practice.vercel.app`, // Allow frontend URL
     credentials: true, // Allow cookies
   }),
 );

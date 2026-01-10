@@ -1,7 +1,7 @@
+import 'dotenv/config'
 import Connect_Db from "./connect.db.js";
 import  app from './app.js'
 import createAdmin from './src/utils/createAdmin.js'
-import 'dotenv/config'
 Connect_Db()
     .then(async()=>{
 

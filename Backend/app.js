@@ -6,6 +6,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 const app = express();
 
+console.log(process.env)
 app.use(
   cors({
     origin: `${process.env.FRONTEND_URL}`, // Allow frontend URL

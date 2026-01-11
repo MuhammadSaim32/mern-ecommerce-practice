@@ -5,7 +5,7 @@ import paymentRouter from "./src/routes/route.payment.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 const app = express();
-
+console.log("git testing")
 app.use(
   cors({
     origin: `https://mern-ecommerce-practice.vercel.app`, // Allow frontend URL

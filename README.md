@@ -18,7 +18,7 @@ This is a **MERN stack-based eCommerce web application** developed for learning 
 - **jwt-decode** – Decode JWT tokens  
 - **AI Tools (ChatGPT)** – Used for layout design and markup  
 
-**🟢 Deployed on:** [back4app]([https://vercel.com](https://www.back4app.com)
+**🟢 Deployed on:** [vercel]([https://vercel.com]
 ---
 
 ### 🔹 Backend:
@@ -34,8 +34,7 @@ This is a **MERN stack-based eCommerce web application** developed for learning 
 - **dotenv** – Environment variable management  
 - **Stripe Webhook** – Real-time checkout event listener (used to clear the user’s cart after successful payments)  
 
-**🟢 Deployed on:** [Railway](https://railway.app)
-
+**🟢 Deployed on:** [Back4app](https://www.back4app.com)
 ---
 
 ## 🔐 Roles & Permissions

@@ -18,7 +18,7 @@ This is a **MERN stack-based eCommerce web application** developed for learning 
 - **jwt-decode** – Decode JWT tokens  
 - **AI Tools (ChatGPT)** – Used for layout design and markup  
 
-**🟢 Deployed on:** [vercel]([https://vercel.com]
+**🟢 Deployed on:** [vercel](https://vercel.com)
 ---
 
 ### 🔹 Backend:
